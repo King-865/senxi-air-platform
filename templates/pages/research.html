@@ -1,0 +1,377 @@
+{% extends "base.html" %}
+
+{% block title %}空气研究院{% endblock %}
+
+{% block content %}
+<!-- Hero Banner -->
+<section class="bg-gradient-to-r from-blue-600 to-blue-700 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+        <div class="inline-flex items-center space-x-2 px-4 py-2 bg-white/20 rounded-full mb-4">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+            <span class="text-sm font-medium">专业知识平台</span>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">空气研究院</h1>
+        <p class="text-xl text-white/80 max-w-2xl mx-auto">
+            系统化、可信赖的空气健康科普内容，助您了解空气质量，守护健康呼吸
+        </p>
+    </div>
+</section>
+
+<!-- Categories Tabs -->
+<section class="bg-white border-b sticky top-16 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex overflow-x-auto space-x-8 py-4">
+            <button class="tab-btn text-blue-600 border-b-2 border-blue-600 pb-2 whitespace-nowrap font-medium" data-tab="all">
+                全部内容
+            </button>
+            <button class="tab-btn text-gray-500 hover:text-blue-600 pb-2 whitespace-nowrap" data-tab="pollution">
+                空气污染
+            </button>
+            <button class="tab-btn text-gray-500 hover:text-blue-600 pb-2 whitespace-nowrap" data-tab="health">
+                健康影响
+            </button>
+            <button class="tab-btn text-gray-500 hover:text-blue-600 pb-2 whitespace-nowrap" data-tab="protection">
+                防护指南
+            </button>
+            <button class="tab-btn text-gray-500 hover:text-blue-600 pb-2 whitespace-nowrap" data-tab="tech">
+                技术科普
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Article -->
+<section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div class="flex flex-col lg:flex-row">
+                <div class="lg:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=800&q=80" 
+                         alt="Featured Article" 
+                         class="w-full h-64 lg:h-full object-cover">
+                </div>
+                <div class="lg:w-1/2 p-8 flex flex-col justify-center">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <span class="px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-full">精选专题</span>
+                        <span class="text-gray-500 text-sm">2024-12-15</span>
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                        室内空气污染：看不见的健康威胁
+                    </h2>
+                    <p class="text-gray-600 mb-6">
+                        室内空气污染已成为影响人类健康的重要因素。据世界卫生组织统计，全球每年约有380万人因室内空气污染导致的疾病而过早死亡。本文将深入解析室内空气污染的来源、危害及有效的防护措施。
+                    </p>
+                    <a href="#" class="inline-flex items-center text-blue-600 font-medium hover:text-blue-700">
+                        <span>阅读全文</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Knowledge Cards -->
+<section class="py-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-8">空气质量基础知识</h2>
+        
+        <!-- AQI Section -->
+        <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 mb-8">
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                    <i data-lucide="activity" class="w-6 h-6 text-blue-600"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900">空气质量指数 (AQI)</h3>
+                    <p class="text-gray-600">了解AQI等级，科学判断空气质量</p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+                <div class="bg-green-500 text-white rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold">0-50</div>
+                    <div class="text-sm font-medium">优</div>
+                    <div class="text-xs mt-2 opacity-90">空气质量令人满意</div>
+                </div>
+                <div class="bg-yellow-500 text-white rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold">51-100</div>
+                    <div class="text-sm font-medium">良</div>
+                    <div class="text-xs mt-2 opacity-90">敏感人群注意</div>
+                </div>
+                <div class="bg-orange-500 text-white rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold">101-150</div>
+                    <div class="text-sm font-medium">轻度污染</div>
+                    <div class="text-xs mt-2 opacity-90">减少户外活动</div>
+                </div>
+                <div class="bg-red-500 text-white rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold">151-200</div>
+                    <div class="text-sm font-medium">中度污染</div>
+                    <div class="text-xs mt-2 opacity-90">避免户外活动</div>
+                </div>
+                <div class="bg-purple-500 text-white rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold">201-300</div>
+                    <div class="text-sm font-medium">重度污染</div>
+                    <div class="text-xs mt-2 opacity-90">停止户外活动</div>
+                </div>
+                <div class="bg-red-900 text-white rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold">300+</div>
+                    <div class="text-sm font-medium">严重污染</div>
+                    <div class="text-xs mt-2 opacity-90">健康警报</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pollutants Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                    <i data-lucide="cloud" class="w-6 h-6 text-red-600"></i>
+                </div>
+                <h4 class="text-lg font-bold text-gray-900 mb-2">PM2.5</h4>
+                <p class="text-gray-600 text-sm mb-4">
+                    直径≤2.5微米的细颗粒物，可穿透肺泡进入血液，WHO建议年均值≤5μg/m³
+                </p>
+                <div class="text-xs text-gray-500">
+                    <strong>主要来源：</strong>燃烧、汽车尾气、工业排放
+                </div>
+            </div>
+            
+            <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
+                    <i data-lucide="home" class="w-6 h-6 text-yellow-600"></i>
+                </div>
+                <h4 class="text-lg font-bold text-gray-900 mb-2">甲醛</h4>
+                <p class="text-gray-600 text-sm mb-4">
+                    一类致癌物，室内安全标准≤0.08mg/m³，释放周期可达3-15年
+                </p>
+                <div class="text-xs text-gray-500">
+                    <strong>主要来源：</strong>装修材料、家具、胶水
+                </div>
+            </div>
+            
+            <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                    <i data-lucide="wind" class="w-6 h-6 text-purple-600"></i>
+                </div>
+                <h4 class="text-lg font-bold text-gray-900 mb-2">VOC</h4>
+                <p class="text-gray-600 text-sm mb-4">
+                    挥发性有机化合物，包含苯、甲苯等有害物质，长期接触可致癌
+                </p>
+                <div class="text-xs text-gray-500">
+                    <strong>主要来源：</strong>油漆、清洁剂、化妆品
+                </div>
+            </div>
+            
+            <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                    <i data-lucide="flower" class="w-6 h-6 text-green-600"></i>
+                </div>
+                <h4 class="text-lg font-bold text-gray-900 mb-2">过敏原</h4>
+                <p class="text-gray-600 text-sm mb-4">
+                    花粉、尘螨、宠物皮屑等，可引发过敏性鼻炎、哮喘等疾病
+                </p>
+                <div class="text-xs text-gray-500">
+                    <strong>主要来源：</strong>植物、床上用品、宠物
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Articles Section -->
+<section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-bold text-gray-900">最新文章</h2>
+            <a href="#" class="text-blue-600 hover:text-blue-700 flex items-center">
+                <span>查看全部</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+            </a>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for article in articles %}
+            <article class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-40 bg-gray-200 overflow-hidden">
+                    <img src="{{ article.image }}" alt="{{ article.title }}" 
+                         class="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                         onerror="this.src='https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=400&q=80'">
+                </div>
+                <div class="p-5">
+                    <div class="flex items-center space-x-2 mb-3">
+                        <span class="px-2 py-1 bg-blue-50 text-blue-600 text-xs rounded">{{ article.category }}</span>
+                        <span class="text-gray-400 text-xs">{{ article.date }}</span>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2 line-clamp-2 hover:text-blue-600 transition-colors">
+                        <a href="#">{{ article.title }}</a>
+                    </h3>
+                    <p class="text-gray-600 text-sm line-clamp-2 mb-3">{{ article.summary }}</p>
+                    <div class="flex items-center text-gray-400 text-xs">
+                        <i data-lucide="eye" class="w-4 h-4 mr-1"></i>
+                        <span>{{ article.views }}</span>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Health Impact Section -->
+<section class="py-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">空气污染对健康的影响</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+                空气污染会对人体多个系统造成损害，了解这些影响有助于我们更好地保护自己和家人
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="text-center p-6">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="heart" class="w-8 h-8 text-red-600"></i>
+                </div>
+                <h3 class="font-bold text-gray-900 mb-2">心血管系统</h3>
+                <p class="text-gray-600 text-sm">
+                    PM2.5可进入血液，增加心脏病、中风风险，长期暴露可导致动脉硬化
+                </p>
+            </div>
+            
+            <div class="text-center p-6">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="wind" class="w-8 h-8 text-blue-600"></i>
+                </div>
+                <h3 class="font-bold text-gray-900 mb-2">呼吸系统</h3>
+                <p class="text-gray-600 text-sm">
+                    引发哮喘、支气管炎、肺癌等疾病，儿童和老人尤其敏感
+                </p>
+            </div>
+            
+            <div class="text-center p-6">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="brain" class="w-8 h-8 text-purple-600"></i>
+                </div>
+                <h3 class="font-bold text-gray-900 mb-2">神经系统</h3>
+                <p class="text-gray-600 text-sm">
+                    影响认知功能，增加老年痴呆风险，儿童智力发育可能受损
+                </p>
+            </div>
+            
+            <div class="text-center p-6">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="shield" class="w-8 h-8 text-green-600"></i>
+                </div>
+                <h3 class="font-bold text-gray-900 mb-2">免疫系统</h3>
+                <p class="text-gray-600 text-sm">
+                    削弱免疫功能，增加感染风险，过敏反应更加频繁和严重
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HEPA Technology Section -->
+<section class="py-12 bg-gradient-to-br from-primary-50 to-blue-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col lg:flex-row items-center gap-12">
+            <div class="lg:w-1/2">
+                <div class="inline-flex items-center space-x-2 px-4 py-2 bg-primary-100 text-primary-700 rounded-full mb-4">
+                    <i data-lucide="cpu" class="w-4 h-4"></i>
+                    <span class="text-sm font-medium">技术科普</span>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-900 mb-6">HEPA滤网技术原理</h2>
+                <p class="text-gray-600 mb-6">
+                    HEPA（High Efficiency Particulate Air）高效颗粒空气过滤器是空气净化的核心技术。通过拦截、惯性碰撞、扩散等物理机制，有效过滤空气中的微小颗粒物。
+                </p>
+                
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-primary-600 font-bold">H11</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900">HEPA H11</h4>
+                            <p class="text-gray-600 text-sm">过滤效率≥95%，适用于一般家用场景</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-primary-600 font-bold">H12</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900">HEPA H12</h4>
+                            <p class="text-gray-600 text-sm">过滤效率≥99.5%，适用于卧室、书房</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-bold">H13</span>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900">HEPA H13 医疗级</h4>
+                            <p class="text-gray-600 text-sm">过滤效率≥99.97%，医院、母婴房间首选</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="lg:w-1/2">
+                <div class="bg-white rounded-2xl shadow-xl p-8">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6 text-center">HEPA过滤原理示意</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                <i data-lucide="target" class="w-6 h-6 text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">拦截效应</h4>
+                                <p class="text-gray-600 text-sm">大颗粒直接被纤维拦截</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl">
+                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                <i data-lucide="zap" class="w-6 h-6 text-green-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">惯性碰撞</h4>
+                                <p class="text-gray-600 text-sm">中等颗粒因惯性撞击纤维</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl">
+                            <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                                <i data-lucide="shuffle" class="w-6 h-6 text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">布朗扩散</h4>
+                                <p class="text-gray-600 text-sm">超细颗粒随机运动被捕获</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-12 bg-blue-600">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">开始您的空气健康之旅</h2>
+        <p class="text-xl text-white/80 mb-8">
+            了解更多空气知识，选择适合您的空气净化方案
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="/guide" class="px-8 py-4 bg-white text-blue-600 rounded-xl font-semibold hover:bg-gray-100 transition-colors flex items-center justify-center space-x-2">
+                <i data-lucide="sparkles" class="w-5 h-5"></i>
+                <span>AI智能推荐</span>
+            </a>
+            <a href="/products" class="px-8 py-4 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-400 transition-colors flex items-center justify-center space-x-2">
+                <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                <span>浏览产品</span>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

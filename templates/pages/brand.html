@@ -1,0 +1,311 @@
+{% extends "base.html" %}
+
+{% block title %}品牌故事{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative h-96 flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0">
+        <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=1920&q=80" 
+             alt="Forest Background" 
+             class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40"></div>
+    </div>
+    <div class="relative z-10 text-center text-white px-4">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">净界者</h1>
+        <p class="text-xl md:text-2xl text-white/80">源自森林的净化科技</p>
+    </div>
+</section>
+
+<!-- Brand Story -->
+<section class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center space-x-2 px-4 py-2 bg-primary-100 text-primary-700 rounded-full mb-4">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                <span class="text-sm font-medium">品牌故事</span>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">让每一次呼吸都充满自然的纯净</h2>
+        </div>
+        
+        <div class="prose prose-lg max-w-none text-gray-600">
+            <p>
+                净界者品牌诞生于2015年，创始团队源自中国科学院大气物理研究所。我们深知空气质量对人类健康的重要性，立志将专业的空气净化技术带入千家万户。
+            </p>
+            <p>
+                品牌名称"净界者"寓意着我们是空气净化领域的开拓者和守护者。我们相信，每个人都值得拥有清新纯净的呼吸空间。无论是雾霾笼罩的城市，还是新装修的家庭，净界者都致力于为您打造一片纯净的空气净土。
+            </p>
+            <p>
+                "森系智韵"是我们的品牌理念——将森林的清新与智能科技完美融合。我们的产品不仅仅是冰冷的机器，更是您家庭健康的智能守护者。
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Timeline -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">发展历程</h2>
+            <p class="text-gray-600">从实验室到千家万户的成长之路</p>
+        </div>
+        
+        <div class="relative">
+            <!-- Timeline Line -->
+            <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-primary-200 hidden md:block"></div>
+            
+            <!-- Timeline Items -->
+            <div class="space-y-12">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 md:pr-12 md:text-right mb-4 md:mb-0">
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">2015年</h3>
+                            <p class="text-gray-600">净界者品牌成立，首款家用空气净化器研发成功</p>
+                        </div>
+                    </div>
+                    <div class="w-4 h-4 bg-primary-600 rounded-full border-4 border-white shadow z-10"></div>
+                    <div class="md:w-1/2 md:pl-12"></div>
+                </div>
+                
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 md:pr-12"></div>
+                    <div class="w-4 h-4 bg-primary-600 rounded-full border-4 border-white shadow z-10"></div>
+                    <div class="md:w-1/2 md:pl-12 mb-4 md:mb-0">
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">2017年</h3>
+                            <p class="text-gray-600">获得国家高新技术企业认证，推出智能互联系列产品</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 md:pr-12 md:text-right mb-4 md:mb-0">
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">2019年</h3>
+                            <p class="text-gray-600">累计服务用户突破10万，建立全国售后服务网络</p>
+                        </div>
+                    </div>
+                    <div class="w-4 h-4 bg-primary-600 rounded-full border-4 border-white shadow z-10"></div>
+                    <div class="md:w-1/2 md:pl-12"></div>
+                </div>
+                
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 md:pr-12"></div>
+                    <div class="w-4 h-4 bg-primary-600 rounded-full border-4 border-white shadow z-10"></div>
+                    <div class="md:w-1/2 md:pl-12 mb-4 md:mb-0">
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">2021年</h3>
+                            <p class="text-gray-600">推出医疗级紫光卫士系列，获得多项国际认证</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 md:pr-12 md:text-right mb-4 md:mb-0">
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">2024年</h3>
+                            <p class="text-gray-600">用户突破50万，发布森系智韵智能空气管理平台</p>
+                        </div>
+                    </div>
+                    <div class="w-4 h-4 bg-primary-600 rounded-full border-4 border-white shadow z-10"></div>
+                    <div class="md:w-1/2 md:pl-12"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Core Values -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">核心价值观</h2>
+            <p class="text-gray-600">指引我们前行的信念</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center p-8 bg-gradient-to-br from-primary-50 to-emerald-50 rounded-2xl">
+                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i data-lucide="heart" class="w-8 h-8 text-primary-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-4">用户至上</h3>
+                <p class="text-gray-600">
+                    始终将用户健康放在首位，倾听用户声音，持续优化产品和服务体验
+                </p>
+            </div>
+            
+            <div class="text-center p-8 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i data-lucide="lightbulb" class="w-8 h-8 text-blue-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-4">科技创新</h3>
+                <p class="text-gray-600">
+                    持续投入研发，将前沿科技转化为实用产品，引领行业技术发展
+                </p>
+            </div>
+            
+            <div class="text-center p-8 bg-gradient-to-br from-green-50 to-teal-50 rounded-2xl">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i data-lucide="leaf" class="w-8 h-8 text-green-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-4">绿色环保</h3>
+                <p class="text-gray-600">
+                    践行可持续发展理念，采用环保材料，降低能耗，守护地球家园
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Technology -->
+<section class="py-20 bg-gray-900 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold mb-4">核心技术</h2>
+            <p class="text-gray-400">自主研发的专利技术体系</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-colors">
+                <div class="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center mb-4">
+                    <i data-lucide="shield" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-bold mb-2">HEPA H13</h3>
+                <p class="text-gray-400 text-sm">医疗级高效过滤技术，99.97%过滤效率</p>
+            </div>
+            
+            <div class="bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-colors">
+                <div class="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4">
+                    <i data-lucide="zap" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-bold mb-2">UV-C消毒</h3>
+                <p class="text-gray-400 text-sm">深紫外线杀菌技术，99.9%病菌灭活率</p>
+            </div>
+            
+            <div class="bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-colors">
+                <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
+                    <i data-lucide="cpu" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-bold mb-2">智能感应</h3>
+                <p class="text-gray-400 text-sm">激光传感器实时监测，AI智能调节</p>
+            </div>
+            
+            <div class="bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-colors">
+                <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4">
+                    <i data-lucide="wind" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-bold mb-2">光触媒分解</h3>
+                <p class="text-gray-400 text-sm">催化分解甲醛，从根源消除污染</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Certifications -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">权威认证</h2>
+            <p class="text-gray-600">品质保证，值得信赖</p>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
+                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow">
+                    <span class="text-2xl font-bold text-primary-600">CE</span>
+                </div>
+                <p class="text-sm text-gray-600">欧盟CE认证</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
+                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow">
+                    <span class="text-2xl font-bold text-blue-600">FCC</span>
+                </div>
+                <p class="text-sm text-gray-600">美国FCC认证</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
+                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow">
+                    <span class="text-2xl font-bold text-red-600">CCC</span>
+                </div>
+                <p class="text-sm text-gray-600">中国3C认证</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
+                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow">
+                    <span class="text-lg font-bold text-green-600">ISO</span>
+                </div>
+                <p class="text-sm text-gray-600">ISO9001认证</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
+                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow">
+                    <i data-lucide="award" class="w-8 h-8 text-yellow-600"></i>
+                </div>
+                <p class="text-sm text-gray-600">高新技术企业</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
+                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow">
+                    <i data-lucide="shield-check" class="w-8 h-8 text-purple-600"></i>
+                </div>
+                <p class="text-sm text-gray-600">医疗器械认证</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Partners -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">合作伙伴</h2>
+            <p class="text-gray-600">携手共建空气健康生态</p>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="bg-white rounded-xl p-8 flex items-center justify-center hover:shadow-lg transition-shadow">
+                <span class="text-2xl font-bold text-gray-400">天猫</span>
+            </div>
+            <div class="bg-white rounded-xl p-8 flex items-center justify-center hover:shadow-lg transition-shadow">
+                <span class="text-2xl font-bold text-gray-400">京东</span>
+            </div>
+            <div class="bg-white rounded-xl p-8 flex items-center justify-center hover:shadow-lg transition-shadow">
+                <span class="text-2xl font-bold text-gray-400">苏宁</span>
+            </div>
+            <div class="bg-white rounded-xl p-8 flex items-center justify-center hover:shadow-lg transition-shadow">
+                <span class="text-2xl font-bold text-gray-400">国美</span>
+            </div>
+        </div>
+        
+        <div class="mt-8 text-center">
+            <p class="text-gray-600 mb-4">官方旗舰店链接</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#" class="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2">
+                    <span>天猫旗舰店</span>
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                </a>
+                <a href="#" class="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex items-center space-x-2">
+                    <span>京东旗舰店</span>
+                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="py-20 bg-gradient-to-r from-primary-600 to-primary-700">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+            开启您的清新呼吸之旅
+        </h2>
+        <p class="text-xl text-white/80 mb-8">
+            选择净界者，选择健康生活
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="/products" class="px-8 py-4 bg-white text-primary-700 rounded-xl font-semibold hover:bg-gray-100 transition-colors">
+                浏览产品
+            </a>
+            <a href="/guide" class="px-8 py-4 bg-primary-500 text-white rounded-xl font-semibold hover:bg-primary-400 transition-colors">
+                智能推荐
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

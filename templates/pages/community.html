@@ -1,0 +1,323 @@
+{% extends "base.html" %}
+
+{% block title %}健康呼吸社区{% endblock %}
+
+{% block content %}
+<!-- Hero Banner -->
+<section class="bg-gradient-to-r from-primary-600 to-emerald-600 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+        <div class="inline-flex items-center space-x-2 px-4 py-2 bg-white/20 rounded-full mb-4">
+            <i data-lucide="users" class="w-4 h-4"></i>
+            <span class="text-sm font-medium">用户社区</span>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">健康呼吸社区</h1>
+        <p class="text-xl text-white/80 max-w-2xl mx-auto">
+            分享空气健康经验，交流使用心得，共建清新生活
+        </p>
+    </div>
+</section>
+
+<!-- Community Stats -->
+<section class="bg-white py-8 border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap justify-center gap-8 md:gap-16">
+            <div class="text-center">
+                <div class="text-3xl font-bold text-primary-600">50,000+</div>
+                <div class="text-gray-600">社区成员</div>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-primary-600">12,000+</div>
+                <div class="text-gray-600">精华帖子</div>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-primary-600">85,000+</div>
+                <div class="text-gray-600">互动评论</div>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-primary-600">98%</div>
+                <div class="text-gray-600">好评率</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Main Feed -->
+            <div class="lg:w-2/3">
+                <!-- Post Actions -->
+                <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                            <i data-lucide="user" class="w-6 h-6 text-primary-600"></i>
+                        </div>
+                        <button class="flex-1 text-left px-4 py-3 bg-gray-100 rounded-xl text-gray-500 hover:bg-gray-200 transition-colors">
+                            分享您的空气健康经验...
+                        </button>
+                        <button class="p-3 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-colors">
+                            <i data-lucide="edit" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Topic Tabs -->
+                <div class="flex overflow-x-auto space-x-2 mb-6 pb-2">
+                    <button class="px-4 py-2 bg-primary-600 text-white rounded-full whitespace-nowrap">全部</button>
+                    <button class="px-4 py-2 bg-white text-gray-600 rounded-full whitespace-nowrap hover:bg-gray-100">使用心得</button>
+                    <button class="px-4 py-2 bg-white text-gray-600 rounded-full whitespace-nowrap hover:bg-gray-100">除甲醛</button>
+                    <button class="px-4 py-2 bg-white text-gray-600 rounded-full whitespace-nowrap hover:bg-gray-100">母婴健康</button>
+                    <button class="px-4 py-2 bg-white text-gray-600 rounded-full whitespace-nowrap hover:bg-gray-100">过敏防护</button>
+                    <button class="px-4 py-2 bg-white text-gray-600 rounded-full whitespace-nowrap hover:bg-gray-100">产品对比</button>
+                </div>
+                
+                <!-- Posts -->
+                <div class="space-y-6">
+                    {% for post in posts %}
+                    <article class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                        <div class="p-6">
+                            <!-- Author Info -->
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gradient-to-br from-primary-400 to-primary-600 rounded-full flex items-center justify-center text-white font-bold">
+                                        {{ post.author[0] }}
+                                    </div>
+                                    <div>
+                                        <div class="font-medium text-gray-900">{{ post.author }}</div>
+                                        <div class="text-sm text-gray-500">{{ post.date }}</div>
+                                    </div>
+                                </div>
+                                <button class="text-gray-400 hover:text-gray-600">
+                                    <i data-lucide="more-horizontal" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Content -->
+                            <h3 class="text-xl font-bold text-gray-900 mb-3 hover:text-primary-600 transition-colors cursor-pointer">
+                                {{ post.title }}
+                            </h3>
+                            <p class="text-gray-600 mb-4">{{ post.content }}</p>
+                            
+                            <!-- Tags -->
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 bg-primary-50 text-primary-600 text-sm rounded-full">#使用体验</span>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">#空气净化</span>
+                            </div>
+                            
+                            <!-- Actions -->
+                            <div class="flex items-center justify-between pt-4 border-t">
+                                <div class="flex items-center space-x-6">
+                                    <button class="flex items-center space-x-2 text-gray-500 hover:text-red-500 transition-colors">
+                                        <i data-lucide="heart" class="w-5 h-5"></i>
+                                        <span>{{ post.likes }}</span>
+                                    </button>
+                                    <button class="flex items-center space-x-2 text-gray-500 hover:text-primary-600 transition-colors">
+                                        <i data-lucide="message-circle" class="w-5 h-5"></i>
+                                        <span>{{ post.comments }}</span>
+                                    </button>
+                                    <button class="flex items-center space-x-2 text-gray-500 hover:text-primary-600 transition-colors">
+                                        <i data-lucide="share-2" class="w-5 h-5"></i>
+                                        <span>分享</span>
+                                    </button>
+                                </div>
+                                <button class="text-gray-500 hover:text-yellow-500 transition-colors">
+                                    <i data-lucide="bookmark" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                    {% endfor %}
+                    
+                    <!-- Sample Posts -->
+                    <article class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+                                        科
+                                    </div>
+                                    <div>
+                                        <div class="font-medium text-gray-900">科技爱好者</div>
+                                        <div class="text-sm text-gray-500">2024-12-10</div>
+                                    </div>
+                                </div>
+                                <span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded">精华</span>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">【深度评测】净界者Pro vs 市面主流品牌对比</h3>
+                            <p class="text-gray-600 mb-4">
+                                作为一个数码爱好者，我购买了市面上5款主流空气净化器进行了为期一个月的对比测试。从CADR值、噪音、能耗、滤芯寿命等多个维度进行了详细对比...
+                            </p>
+                            
+                            <!-- Image Grid -->
+                            <div class="grid grid-cols-3 gap-2 mb-4">
+                                <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=300&q=80" 
+                                     class="w-full h-24 object-cover rounded-lg" alt="测试图1">
+                                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&q=80" 
+                                     class="w-full h-24 object-cover rounded-lg" alt="测试图2">
+                                <img src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=300&q=80" 
+                                     class="w-full h-24 object-cover rounded-lg" alt="测试图3">
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 bg-blue-50 text-blue-600 text-sm rounded-full">#深度评测</span>
+                                <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">#产品对比</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between pt-4 border-t">
+                                <div class="flex items-center space-x-6">
+                                    <button class="flex items-center space-x-2 text-red-500">
+                                        <i data-lucide="heart" class="w-5 h-5 fill-current"></i>
+                                        <span>892</span>
+                                    </button>
+                                    <button class="flex items-center space-x-2 text-gray-500 hover:text-primary-600 transition-colors">
+                                        <i data-lucide="message-circle" class="w-5 h-5"></i>
+                                        <span>156</span>
+                                    </button>
+                                    <button class="flex items-center space-x-2 text-gray-500 hover:text-primary-600 transition-colors">
+                                        <i data-lucide="share-2" class="w-5 h-5"></i>
+                                        <span>分享</span>
+                                    </button>
+                                </div>
+                                <button class="text-yellow-500">
+                                    <i data-lucide="bookmark" class="w-5 h-5 fill-current"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                
+                <!-- Load More -->
+                <div class="text-center mt-8">
+                    <button class="px-8 py-3 bg-white text-gray-700 rounded-xl font-medium hover:bg-gray-50 transition-colors border border-gray-200">
+                        加载更多
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="lg:w-1/3 space-y-6">
+                <!-- Member Level -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h3 class="font-bold text-gray-900 mb-4 flex items-center">
+                        <i data-lucide="award" class="w-5 h-5 mr-2 text-primary-600"></i>
+                        会员成长体系
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-white text-sm">L1</div>
+                                <span class="text-gray-700">新手会员</span>
+                            </div>
+                            <span class="text-gray-500 text-sm">0-100积分</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm">L2</div>
+                                <span class="text-gray-700">清新达人</span>
+                            </div>
+                            <span class="text-gray-500 text-sm">100-500积分</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm">L3</div>
+                                <span class="text-gray-700">空气专家</span>
+                            </div>
+                            <span class="text-gray-500 text-sm">500-2000积分</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-sm">L4</div>
+                                <span class="text-gray-700">森林守护者</span>
+                            </div>
+                            <span class="text-gray-500 text-sm">2000+积分</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hot Topics -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h3 class="font-bold text-gray-900 mb-4 flex items-center">
+                        <i data-lucide="trending-up" class="w-5 h-5 mr-2 text-red-500"></i>
+                        热门话题
+                    </h3>
+                    <div class="space-y-3">
+                        <a href="#" class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                            <span class="w-6 h-6 bg-red-500 text-white rounded text-sm flex items-center justify-center font-bold">1</span>
+                            <span class="text-gray-700 hover:text-primary-600">#新房除甲醛攻略</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                            <span class="w-6 h-6 bg-orange-500 text-white rounded text-sm flex items-center justify-center font-bold">2</span>
+                            <span class="text-gray-700 hover:text-primary-600">#冬季空气净化</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                            <span class="w-6 h-6 bg-yellow-500 text-white rounded text-sm flex items-center justify-center font-bold">3</span>
+                            <span class="text-gray-700 hover:text-primary-600">#宝宝房间空气管理</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                            <span class="w-6 h-6 bg-gray-400 text-white rounded text-sm flex items-center justify-center font-bold">4</span>
+                            <span class="text-gray-700 hover:text-primary-600">#滤芯更换心得</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                            <span class="w-6 h-6 bg-gray-400 text-white rounded text-sm flex items-center justify-center font-bold">5</span>
+                            <span class="text-gray-700 hover:text-primary-600">#过敏季节防护</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Active Users -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h3 class="font-bold text-gray-900 mb-4 flex items-center">
+                        <i data-lucide="star" class="w-5 h-5 mr-2 text-yellow-500"></i>
+                        活跃贡献者
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                                科
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-medium text-gray-900">科技爱好者</div>
+                                <div class="text-sm text-gray-500">发布 128 篇</div>
+                            </div>
+                            <span class="px-2 py-1 bg-purple-100 text-purple-600 text-xs rounded">L4</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+                                健
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-medium text-gray-900">健康生活家</div>
+                                <div class="text-sm text-gray-500">发布 96 篇</div>
+                            </div>
+                            <span class="px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded">L3</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-gradient-to-br from-pink-400 to-pink-600 rounded-full flex items-center justify-center text-white font-bold">
+                                宝
+                            </div>
+                            <div class="flex-1">
+                                <div class="font-medium text-gray-900">宝妈日记</div>
+                                <div class="text-sm text-gray-500">发布 85 篇</div>
+                            </div>
+                            <span class="px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded">L3</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="bg-gradient-to-br from-primary-600 to-emerald-600 rounded-xl p-6 text-white">
+                    <h3 class="font-bold mb-4">加入社区</h3>
+                    <p class="text-white/80 text-sm mb-4">
+                        分享您的空气健康经验，与更多用户交流互动，还能获取积分兑换好礼！
+                    </p>
+                    <button class="w-full py-3 bg-white text-primary-600 rounded-lg font-medium hover:bg-gray-100 transition-colors">
+                        立即加入
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

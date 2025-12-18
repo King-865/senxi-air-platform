@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+
+{% block title %}产品中心{% endblock %}
+
+{% block content %}
+<!-- Hero Banner -->
+<section class="bg-gradient-to-r from-primary-600 to-primary-700 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">产品中心</h1>
+        <p class="text-xl text-white/80">探索净界者全系列空气净化产品</p>
+    </div>
+</section>
+
+<!-- Products Section -->
+<section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Filters -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+            <!-- Categories -->
+            <div class="flex flex-wrap gap-2">
+                {% for category in categories %}
+                <button class="category-btn px-4 py-2 rounded-lg transition-colors {{ 'bg-primary-600 text-white' if category.id == 'all' else 'bg-white text-gray-700 hover:bg-primary-50' }}"
+                        data-category="{{ category.id }}">
+                    <i data-lucide="{{ category.icon }}" class="w-4 h-4 inline mr-1"></i>
+                    {{ category.name }}
+                </button>
+                {% endfor %}
+            </div>
+            
+            <!-- Sort -->
+            <div class="flex items-center space-x-2">
+                <span class="text-gray-600">排序：</span>
+                <select id="sort-select" class="px-4 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
+                    <option value="default">默认排序</option>
+                    <option value="price_asc">价格从低到高</option>
+                    <option value="price_desc">价格从高到低</option>
+                    <option value="rating">评分最高</option>
+                    <option value="sales">销量最高</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Products Grid -->
+        <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {% for product in products %}
+            <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1"
+                 data-category="{{ product.category }}">
+                <!-- Product Image -->
+                <div class="relative h-56 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+                    <a href="/product/{{ product.id }}">
+                        <img src="{{ product.main_image }}" alt="{{ product.name }}" 
+                             class="w-full h-full object-contain p-6 hover:scale-110 transition-transform duration-300"
+                             onerror="this.src='https://via.placeholder.com/300x300?text=Product'">
+                    </a>
+                    {% if product.badge %}
+                    <div class="absolute top-3 left-3 px-3 py-1 text-white text-xs font-medium rounded-full
+                                {% if product.badge_color == 'red' %}bg-red-500
+                                {% elif product.badge_color == 'orange' %}bg-orange-500
+                                {% elif product.badge_color == 'purple' %}bg-purple-500
+                                {% elif product.badge_color == 'blue' %}bg-blue-500
+                                {% else %}bg-primary-500{% endif %}">
+                        {{ product.badge }}
+                    </div>
+                    {% endif %}
+                    {% if product.discount %}
+                    <div class="absolute top-3 right-3 px-2 py-1 bg-red-100 text-red-600 text-xs font-medium rounded">
+                        -{{ product.discount }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Product Info -->
+                <div class="p-5">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center text-yellow-500">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <span class="ml-1 text-sm font-medium text-gray-700">{{ product.rating }}</span>
+                        </div>
+                        <span class="text-gray-400 text-xs">{{ product.reviews }}条评价</span>
+                    </div>
+                    
+                    <a href="/product/{{ product.id }}" class="block">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2 hover:text-primary-600 transition-colors line-clamp-2">
+                            {{ product.name }}
+                        </h3>
+                    </a>
+                    
+                    <div class="flex flex-wrap gap-1 mb-3">
+                        {% for tag in product.tags[:2] %}
+                        <span class="px-2 py-0.5 bg-primary-50 text-primary-700 text-xs rounded">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="flex items-end justify-between">
+                        <div>
+                            <span class="text-2xl font-bold text-primary-600">¥{{ product.price }}</span>
+                            {% if product.original_price %}
+                            <span class="text-gray-400 line-through text-sm ml-1">¥{{ product.original_price }}</span>
+                            {% endif %}
+                        </div>
+                        <a href="/product/{{ product.id }}" 
+                           class="p-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden text-center py-16">
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i data-lucide="package" class="w-8 h-8 text-gray-400"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">暂无产品</h3>
+            <p class="text-gray-500">该分类下暂无产品，请查看其他分类</p>
+        </div>
+    </div>
+</section>
+
+<!-- Compare CTA -->
+<section class="py-12 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="bg-gradient-to-r from-accent-50 to-primary-50 rounded-2xl p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">不知道选哪款？</h2>
+            <p class="text-gray-600 mb-6">使用我们的产品对比工具，或让AI为您推荐最适合的产品</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="/compare" class="px-6 py-3 bg-white text-gray-700 rounded-xl font-medium hover:bg-gray-50 transition-colors flex items-center justify-center space-x-2 border border-gray-200">
+                    <i data-lucide="columns" class="w-5 h-5"></i>
+                    <span>产品对比</span>
+                </a>
+                <a href="/guide" class="px-6 py-3 bg-accent-600 text-white rounded-xl font-medium hover:bg-accent-700 transition-colors flex items-center justify-center space-x-2">
+                    <i data-lucide="sparkles" class="w-5 h-5"></i>
+                    <span>AI智能推荐</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const sortSelect = document.getElementById('sort-select');
+    const productsGrid = document.getElementById('products-grid');
+    const productCards = document.querySelectorAll('.product-card');
+    const emptyState = document.getElementById('empty-state');
+    
+    let currentCategory = 'all';
+    
+    // Category filter
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            currentCategory = this.dataset.category;
+            
+            // Update button styles
+            categoryBtns.forEach(b => {
+                b.classList.remove('bg-primary-600', 'text-white');
+                b.classList.add('bg-white', 'text-gray-700');
+            });
+            this.classList.remove('bg-white', 'text-gray-700');
+            this.classList.add('bg-primary-600', 'text-white');
+            
+            // Filter products
+            filterProducts();
+        });
+    });
+    
+    // Sort
+    sortSelect.addEventListener('change', function() {
+        sortProducts(this.value);
+    });
+    
+    function filterProducts() {
+        let visibleCount = 0;
+        
+        productCards.forEach(card => {
+            const category = card.dataset.category;
+            if (currentCategory === 'all' || category === currentCategory) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+        
+        // Show/hide empty state
+        if (visibleCount === 0) {
+            emptyState.classList.remove('hidden');
+        } else {
+            emptyState.classList.add('hidden');
+        }
+    }
+    
+    function sortProducts(sortBy) {
+        const cards = Array.from(productCards);
+        
+        cards.sort((a, b) => {
+            const priceA = parseInt(a.querySelector('.text-primary-600').textContent.replace(/[^0-9]/g, ''));
+            const priceB = parseInt(b.querySelector('.text-primary-600').textContent.replace(/[^0-9]/g, ''));
+            const ratingA = parseFloat(a.querySelector('.text-gray-700').textContent);
+            const ratingB = parseFloat(b.querySelector('.text-gray-700').textContent);
+            
+            switch(sortBy) {
+                case 'price_asc':
+                    return priceA - priceB;
+                case 'price_desc':
+                    return priceB - priceA;
+                case 'rating':
+                    return ratingB - ratingA;
+                default:
+                    return 0;
+            }
+        });
+        
+        cards.forEach(card => productsGrid.appendChild(card));
+    }
+});
+</script>
+{% endblock %}

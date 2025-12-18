@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+
+{% block title %}产品对比{% endblock %}
+
+{% block content %}
+<!-- Hero Banner -->
+<section class="bg-gradient-to-r from-blue-600 to-indigo-600 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+        <h1 class="text-3xl md:text-4xl font-bold mb-2">产品对比</h1>
+        <p class="text-white/80">选择产品进行详细对比，找到最适合您的空气净化方案</p>
+    </div>
+</section>
+
+<!-- Compare Section -->
+<section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Product Selection -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">选择对比产品（最多4款）</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="compare-slots">
+                <!-- Slot 1 -->
+                <div class="compare-slot border-2 border-dashed border-gray-300 rounded-xl p-4 min-h-40 flex flex-col items-center justify-center cursor-pointer hover:border-primary-500 transition-colors"
+                     data-slot="1">
+                    <i data-lucide="plus" class="w-8 h-8 text-gray-400 mb-2"></i>
+                    <span class="text-gray-500 text-sm">添加产品</span>
+                </div>
+                <!-- Slot 2 -->
+                <div class="compare-slot border-2 border-dashed border-gray-300 rounded-xl p-4 min-h-40 flex flex-col items-center justify-center cursor-pointer hover:border-primary-500 transition-colors"
+                     data-slot="2">
+                    <i data-lucide="plus" class="w-8 h-8 text-gray-400 mb-2"></i>
+                    <span class="text-gray-500 text-sm">添加产品</span>
+                </div>
+                <!-- Slot 3 -->
+                <div class="compare-slot border-2 border-dashed border-gray-300 rounded-xl p-4 min-h-40 flex flex-col items-center justify-center cursor-pointer hover:border-primary-500 transition-colors"
+                     data-slot="3">
+                    <i data-lucide="plus" class="w-8 h-8 text-gray-400 mb-2"></i>
+                    <span class="text-gray-500 text-sm">添加产品</span>
+                </div>
+                <!-- Slot 4 -->
+                <div class="compare-slot border-2 border-dashed border-gray-300 rounded-xl p-4 min-h-40 flex flex-col items-center justify-center cursor-pointer hover:border-primary-500 transition-colors"
+                     data-slot="4">
+                    <i data-lucide="plus" class="w-8 h-8 text-gray-400 mb-2"></i>
+                    <span class="text-gray-500 text-sm">添加产品</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Comparison Table -->
+        <div id="comparison-table" class="bg-white rounded-2xl shadow-lg overflow-hidden hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900 w-1/5">参数</th>
+                            <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900" id="col-1"></th>
+                            <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900" id="col-2"></th>
+                            <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900" id="col-3"></th>
+                            <th class="px-6 py-4 text-center text-sm font-semibold text-gray-900" id="col-4"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="comparison-body" class="divide-y divide-gray-200">
+                        <!-- Comparison rows will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Product Selection Modal -->
+        <div id="product-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center">
+            <div class="bg-white rounded-2xl shadow-xl max-w-2xl w-full mx-4 max-h-[80vh] overflow-hidden">
+                <div class="p-6 border-b">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xl font-bold text-gray-900">选择产品</h3>
+                        <button id="close-modal" class="p-2 hover:bg-gray-100 rounded-lg">
+                            <i data-lucide="x" class="w-5 h-5 text-gray-500"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6 overflow-y-auto max-h-96">
+                    <div class="grid grid-cols-2 gap-4" id="product-list">
+                        {% for product in products %}
+                        <div class="product-option border border-gray-200 rounded-xl p-4 cursor-pointer hover:border-primary-500 hover:bg-primary-50 transition-colors"
+                             data-product-id="{{ product.id }}"
+                             data-product-name="{{ product.name }}"
+                             data-product-image="{{ product.main_image }}"
+                             data-product-price="{{ product.price }}">
+                            <div class="flex items-center space-x-3">
+                                <img src="{{ product.main_image }}" alt="{{ product.name }}" 
+                                     class="w-16 h-16 object-contain bg-gray-100 rounded-lg"
+                                     onerror="this.src='https://via.placeholder.com/100x100?text=Product'">
+                                <div>
+                                    <h4 class="font-medium text-gray-900 text-sm">{{ product.name }}</h4>
+                                    <p class="text-primary-600 font-bold">¥{{ product.price }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Compare -->
+<section class="py-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-8 text-center">热门对比组合</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-shadow cursor-pointer">
+                <h3 class="font-bold text-gray-900 mb-4">卧室净化器对比</h3>
+                <p class="text-gray-600 text-sm mb-4">适合20-40㎡卧室的静音净化器对比</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-primary-600 font-medium">查看对比</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5 text-primary-600"></i>
+                </div>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-shadow cursor-pointer">
+                <h3 class="font-bold text-gray-900 mb-4">除甲醛专用对比</h3>
+                <p class="text-gray-600 text-sm mb-4">新房装修必备的除醛净化器对比</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-primary-600 font-medium">查看对比</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5 text-primary-600"></i>
+                </div>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6 hover:shadow-lg transition-shadow cursor-pointer">
+                <h3 class="font-bold text-gray-900 mb-4">大户型全能对比</h3>
+                <p class="text-gray-600 text-sm mb-4">适合60㎡以上大空间的高端净化器</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-primary-600 font-medium">查看对比</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5 text-primary-600"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const compareSlots = document.querySelectorAll('.compare-slot');
+    const productModal = document.getElementById('product-modal');
+    const closeModalBtn = document.getElementById('close-modal');
+    const productOptions = document.querySelectorAll('.product-option');
+    const comparisonTable = document.getElementById('comparison-table');
+    
+    let currentSlot = null;
+    let selectedProducts = {};
+    
+    // Open modal when clicking slot
+    compareSlots.forEach(slot => {
+        slot.addEventListener('click', function() {
+            currentSlot = this.dataset.slot;
+            productModal.classList.remove('hidden');
+        });
+    });
+    
+    // Close modal
+    closeModalBtn.addEventListener('click', function() {
+        productModal.classList.add('hidden');
+    });
+    
+    productModal.addEventListener('click', function(e) {
+        if (e.target === productModal) {
+            productModal.classList.add('hidden');
+        }
+    });
+    
+    // Select product
+    productOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const productId = this.dataset.productId;
+            const productName = this.dataset.productName;
+            const productImage = this.dataset.productImage;
+            const productPrice = this.dataset.productPrice;
+            
+            // Update slot
+            const slot = document.querySelector(`.compare-slot[data-slot="${currentSlot}"]`);
+            slot.innerHTML = `
+                <img src="${productImage}" alt="${productName}" class="w-20 h-20 object-contain mb-2"
+                     onerror="this.src='https://via.placeholder.com/100x100?text=Product'">
+                <h4 class="text-sm font-medium text-gray-900 text-center line-clamp-2">${productName}</h4>
+                <p class="text-primary-600 font-bold">¥${productPrice}</p>
+                <button class="remove-product mt-2 text-red-500 text-sm hover:text-red-700">移除</button>
+            `;
+            slot.classList.remove('border-dashed');
+            slot.classList.add('border-solid', 'border-primary-500');
+            
+            // Store selected product
+            selectedProducts[currentSlot] = {
+                id: productId,
+                name: productName,
+                image: productImage,
+                price: productPrice
+            };
+            
+            // Close modal
+            productModal.classList.add('hidden');
+            
+            // Update comparison table
+            updateComparisonTable();
+            
+            // Add remove listener
+            slot.querySelector('.remove-product').addEventListener('click', function(e) {
+                e.stopPropagation();
+                removeProduct(currentSlot);
+            });
+        });
+    });
+    
+    function removeProduct(slotNum) {
+        const slot = document.querySelector(`.compare-slot[data-slot="${slotNum}"]`);
+        slot.innerHTML = `
+            <i data-lucide="plus" class="w-8 h-8 text-gray-400 mb-2"></i>
+            <span class="text-gray-500 text-sm">添加产品</span>
+        `;
+        slot.classList.add('border-dashed');
+        slot.classList.remove('border-solid', 'border-primary-500');
+        
+        delete selectedProducts[slotNum];
+        lucide.createIcons();
+        updateComparisonTable();
+    }
+    
+    function updateComparisonTable() {
+        const productCount = Object.keys(selectedProducts).length;
+        
+        if (productCount < 2) {
+            comparisonTable.classList.add('hidden');
+            return;
+        }
+        
+        comparisonTable.classList.remove('hidden');
+        
+        // Update column headers
+        for (let i = 1; i <= 4; i++) {
+            const col = document.getElementById(`col-${i}`);
+            if (selectedProducts[i]) {
+                col.textContent = selectedProducts[i].name;
+                col.classList.remove('hidden');
+            } else {
+                col.textContent = '';
+                col.classList.add('hidden');
+            }
+        }
+        
+        // Generate comparison rows (mock data)
+        const specs = [
+            { name: '价格', key: 'price', format: '¥{value}' },
+            { name: '适用面积', key: 'area', values: ['20-40㎡', '40-60㎡', '60-100㎡', '30-50㎡'] },
+            { name: '颗粒物CADR', key: 'cadr', values: ['350m³/h', '500m³/h', '800m³/h', '400m³/h'] },
+            { name: '甲醛CADR', key: 'formaldehyde', values: ['150m³/h', '300m³/h', '500m³/h', '200m³/h'] },
+            { name: '噪音范围', key: 'noise', values: ['20-52dB', '22-58dB', '25-65dB', '20-55dB'] },
+            { name: '滤网等级', key: 'filter', values: ['HEPA H12', 'HEPA H13', 'HEPA H13', 'HEPA H12'] },
+            { name: '智能功能', key: 'smart', values: ['APP控制', 'APP+语音', '全智能', 'APP控制'] },
+            { name: '能效等级', key: 'energy', values: ['一级能效', '一级能效', '一级能效', '一级能效'] }
+        ];
+        
+        const tbody = document.getElementById('comparison-body');
+        tbody.innerHTML = '';
+        
+        specs.forEach((spec, index) => {
+            const row = document.createElement('tr');
+            row.className = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
+            
+            let rowHtml = `<td class="px-6 py-4 text-sm text-gray-900 font-medium">${spec.name}</td>`;
+            
+            for (let i = 1; i <= 4; i++) {
+                if (selectedProducts[i]) {
+                    let value;
+                    if (spec.key === 'price') {
+                        value = `¥${selectedProducts[i].price}`;
+                    } else {
+                        value = spec.values[parseInt(selectedProducts[i].id.slice(-1)) % 4];
+                    }
+                    rowHtml += `<td class="px-6 py-4 text-sm text-gray-600 text-center">${value}</td>`;
+                } else {
+                    rowHtml += `<td class="px-6 py-4 text-sm text-gray-600 text-center hidden"></td>`;
+                }
+            }
+            
+            row.innerHTML = rowHtml;
+            tbody.appendChild(row);
+        });
+    }
+});
+</script>
+{% endblock %}

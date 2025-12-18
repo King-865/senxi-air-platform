@@ -1,0 +1,633 @@
+{% extends "base.html" %}
+
+{% block title %}智能导购{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gradient-to-br from-accent-50 via-white to-primary-50 py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center space-x-2 px-4 py-2 bg-accent-100 text-accent-700 rounded-full mb-4">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                <span class="text-sm font-medium">AI智能导购</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                定制您的空气管理方案
+            </h1>
+            <p class="text-xl text-gray-600">
+                回答几个简单问题，获取专属推荐
+            </p>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="mb-8">
+            <div class="flex justify-between text-sm text-gray-500 mb-2">
+                <span>进度</span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div id="progress-bar" class="h-full bg-gradient-to-r from-accent-500 to-primary-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+        </div>
+        
+        <!-- Chat Container -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <!-- Chat Header -->
+            <div class="bg-gradient-to-r from-accent-600 to-primary-600 px-6 py-4 flex items-center space-x-4">
+                <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                    <i data-lucide="bot" class="w-7 h-7 text-white"></i>
+                </div>
+                <div>
+                    <h3 class="text-white font-semibold text-lg">智能空气顾问</h3>
+                    <p class="text-white/80 text-sm">为您量身定制空气管理方案</p>
+                </div>
+            </div>
+            
+            <!-- Chat Messages -->
+            <div id="guide-messages" class="h-96 overflow-y-auto p-6 space-y-4 bg-gray-50">
+                <!-- Messages will be inserted here -->
+            </div>
+            
+            <!-- Options Area -->
+            <div id="guide-options" class="px-6 py-4 border-t bg-white">
+                <!-- Options will be inserted here -->
+            </div>
+            
+            <!-- Input Area -->
+            <div id="guide-input-area" class="px-6 py-4 border-t bg-white hidden">
+                <div class="flex space-x-3">
+                    <input type="text" id="guide-input" 
+                           class="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-500"
+                           placeholder="输入您的回答...">
+                    <button id="guide-send" class="px-6 py-3 bg-accent-600 text-white rounded-xl hover:bg-accent-700 transition-colors flex items-center space-x-2">
+                        <span>发送</span>
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recommendation Result (Hidden initially) -->
+        <div id="recommendation-result" class="mt-8 hidden">
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <div class="text-center mb-8">
+                    <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="check-circle" class="w-8 h-8 text-primary-600"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">为您推荐的空气管理方案</h2>
+                    <p class="text-gray-600">根据您的需求，我们精心挑选了以下产品</p>
+                </div>
+                
+                <!-- User Profile Summary -->
+                <div id="profile-summary" class="bg-gray-50 rounded-xl p-6 mb-8">
+                    <h3 class="font-semibold text-gray-900 mb-4 flex items-center">
+                        <i data-lucide="user" class="w-5 h-5 mr-2 text-accent-600"></i>
+                        您的需求摘要
+                    </h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="profile-details">
+                        <!-- Profile details will be inserted here -->
+                    </div>
+                </div>
+                
+                <!-- Recommended Products -->
+                <div id="recommended-products" class="space-y-6">
+                    <!-- Products will be inserted here -->
+                </div>
+                
+                <!-- Actions -->
+                <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8">
+                    <button id="restart-guide" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors flex items-center justify-center space-x-2">
+                        <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+                        <span>重新测试</span>
+                    </button>
+                    <a href="/products" class="px-6 py-3 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-colors flex items-center justify-center space-x-2">
+                        <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                        <span>查看全部产品</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Smart Guide System
+class SmartGuide {
+    constructor() {
+        this.currentStep = 0;
+        this.userProfile = {};
+        this.messagesContainer = document.getElementById('guide-messages');
+        this.optionsContainer = document.getElementById('guide-options');
+        this.inputArea = document.getElementById('guide-input-area');
+        this.progressBar = document.getElementById('progress-bar');
+        this.progressText = document.getElementById('progress-text');
+        this.resultContainer = document.getElementById('recommendation-result');
+        
+        this.init();
+    }
+    
+    init() {
+        // Start the guide
+        this.startGuide();
+        
+        // Event listeners
+        document.getElementById('guide-send')?.addEventListener('click', () => this.handleInput());
+        document.getElementById('guide-input')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') this.handleInput();
+        });
+        document.getElementById('restart-guide')?.addEventListener('click', () => this.restart());
+    }
+    
+    async startGuide() {
+        try {
+            const response = await fetch('/api/guide/start', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await response.json();
+            this.displayMessage(data.message, 'bot');
+            this.currentStep = 1;
+            this.showStep1Options();
+        } catch (error) {
+            console.error('Error starting guide:', error);
+            this.displayMessage('您好！我是森系智韵的智能空气顾问。让我们开始为您定制专属的空气管理方案吧！', 'bot');
+            this.currentStep = 1;
+            this.showStep1Options();
+        }
+    }
+    
+    displayMessage(text, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = sender === 'bot' 
+            ? 'flex items-start space-x-3' 
+            : 'flex items-start space-x-3 flex-row-reverse';
+        
+        const avatar = sender === 'bot'
+            ? `<div class="w-10 h-10 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0">
+                   <i data-lucide="bot" class="w-5 h-5 text-accent-600"></i>
+               </div>`
+            : `<div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                   <i data-lucide="user" class="w-5 h-5 text-primary-600"></i>
+               </div>`;
+        
+        const bubbleClass = sender === 'bot'
+            ? 'bg-white border border-gray-200 text-gray-800'
+            : 'bg-accent-600 text-white';
+        
+        messageDiv.innerHTML = `
+            ${avatar}
+            <div class="max-w-md ${bubbleClass} rounded-2xl px-4 py-3 shadow-sm">
+                <p>${text}</p>
+            </div>
+        `;
+        
+        this.messagesContainer.appendChild(messageDiv);
+        this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+        
+        // Re-initialize Lucide icons
+        lucide.createIcons();
+    }
+    
+    updateProgress(percent) {
+        this.progressBar.style.width = `${percent}%`;
+        this.progressText.textContent = `${percent}%`;
+    }
+    
+    showOptions(options, multiSelect = false) {
+        this.optionsContainer.innerHTML = '';
+        
+        const wrapper = document.createElement('div');
+        wrapper.className = 'flex flex-wrap gap-2';
+        
+        options.forEach(option => {
+            const btn = document.createElement('button');
+            btn.className = 'px-4 py-2 bg-gray-100 hover:bg-accent-100 text-gray-700 hover:text-accent-700 rounded-xl transition-colors flex items-center space-x-2';
+            btn.dataset.value = option.value;
+            
+            let content = '';
+            if (option.icon) {
+                content += `<span>${option.icon}</span>`;
+            }
+            content += `<span>${option.label}</span>`;
+            if (option.description) {
+                content += `<span class="text-xs text-gray-500">(${option.description})</span>`;
+            }
+            if (option.range) {
+                content += `<span class="text-xs text-gray-500">${option.range}</span>`;
+            }
+            
+            btn.innerHTML = content;
+            
+            if (multiSelect) {
+                btn.addEventListener('click', () => this.toggleOption(btn));
+            } else {
+                btn.addEventListener('click', () => this.selectOption(option.value, option.label));
+            }
+            
+            wrapper.appendChild(btn);
+        });
+        
+        if (multiSelect) {
+            const confirmBtn = document.createElement('button');
+            confirmBtn.className = 'mt-4 w-full px-4 py-3 bg-accent-600 text-white rounded-xl hover:bg-accent-700 transition-colors';
+            confirmBtn.textContent = '确认选择';
+            confirmBtn.addEventListener('click', () => this.confirmMultiSelect());
+            
+            this.optionsContainer.appendChild(wrapper);
+            this.optionsContainer.appendChild(confirmBtn);
+        } else {
+            this.optionsContainer.appendChild(wrapper);
+        }
+    }
+    
+    toggleOption(btn) {
+        btn.classList.toggle('bg-accent-600');
+        btn.classList.toggle('text-white');
+        btn.classList.toggle('bg-gray-100');
+        btn.classList.toggle('text-gray-700');
+        btn.dataset.selected = btn.classList.contains('bg-accent-600') ? 'true' : 'false';
+    }
+    
+    async selectOption(value, label) {
+        this.displayMessage(label, 'user');
+        await this.processStep(value);
+    }
+    
+    async confirmMultiSelect() {
+        const selected = Array.from(this.optionsContainer.querySelectorAll('button[data-selected="true"]'));
+        if (selected.length === 0) {
+            alert('请至少选择一项');
+            return;
+        }
+        
+        const values = selected.map(btn => btn.dataset.value);
+        const labels = selected.map(btn => btn.textContent.trim());
+        
+        this.displayMessage(labels.join('、'), 'user');
+        await this.processStep(values.join(','));
+    }
+    
+    async processStep(value) {
+        try {
+            const response = await fetch('/api/guide/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    message: value,
+                    step: this.currentStep
+                })
+            });
+            const data = await response.json();
+            
+            this.updateProgress(data.progress || 0);
+            
+            if (data.type === 'recommendation') {
+                this.showRecommendations(data);
+            } else {
+                this.displayMessage(data.message, 'bot');
+                this.currentStep = data.next_step;
+                this.showStepOptions(data);
+            }
+        } catch (error) {
+            console.error('Error processing step:', error);
+            this.handleLocalStep(value);
+        }
+    }
+    
+    handleLocalStep(value) {
+        // Local fallback logic
+        switch (this.currentStep) {
+            case 1:
+                this.userProfile.area = value;
+                this.displayMessage(`好的，您的空间面积是${value}平方米。请问您居住在哪个区域？`, 'bot');
+                this.currentStep = 2;
+                this.updateProgress(28);
+                this.showStep2Options();
+                break;
+            case 2:
+                this.userProfile.region = value;
+                this.displayMessage('了解了。请问您最关注哪些空气问题？（可多选）', 'bot');
+                this.currentStep = 3;
+                this.updateProgress(42);
+                this.showStep3Options();
+                break;
+            case 3:
+                this.userProfile.problems = value.split(',');
+                this.displayMessage('明白了。请问家中主要有哪些成员？（可多选）', 'bot');
+                this.currentStep = 4;
+                this.updateProgress(56);
+                this.showStep4Options();
+                break;
+            case 4:
+                this.userProfile.users = value.split(',');
+                this.displayMessage('请问您主要想在哪个空间使用空气净化器？', 'bot');
+                this.currentStep = 5;
+                this.updateProgress(70);
+                this.showStep5Options();
+                break;
+            case 5:
+                this.userProfile.space = value;
+                this.displayMessage('最后一个问题，请问您的预算范围是？', 'bot');
+                this.currentStep = 6;
+                this.updateProgress(84);
+                this.showStep6Options();
+                break;
+            case 6:
+                this.userProfile.budget = value;
+                this.updateProgress(100);
+                this.generateLocalRecommendation();
+                break;
+        }
+    }
+    
+    showStepOptions(data) {
+        if (data.options) {
+            this.showOptions(data.options, data.multi_select || false);
+        }
+    }
+    
+    // Step options
+    showStep1Options() {
+        this.displayMessage('首先，请问您需要净化的空间面积大约是多少？', 'bot');
+        this.showOptions([
+            { value: '20', label: '20㎡以下', description: '小卧室/书房' },
+            { value: '30', label: '20-40㎡', description: '卧室/小客厅' },
+            { value: '50', label: '40-60㎡', description: '客厅/大卧室' },
+            { value: '80', label: '60-100㎡', description: '大客厅/开放空间' },
+            { value: '120', label: '100㎡以上', description: '全屋/大型空间' }
+        ]);
+    }
+    
+    showStep2Options() {
+        this.showOptions([
+            { value: 'north', label: '北方地区', description: '京津冀、东北等' },
+            { value: 'south', label: '南方地区', description: '长三角、珠三角等' },
+            { value: 'coastal', label: '沿海地区', description: '沿海城市' },
+            { value: 'inland', label: '内陆地区', description: '中部内陆' },
+            { value: 'industrial', label: '工业区附近', description: '工业园区周边' }
+        ]);
+    }
+    
+    showStep3Options() {
+        this.showOptions([
+            { value: 'pm25', label: 'PM2.5/雾霾', icon: '🌫️' },
+            { value: 'formaldehyde', label: '甲醛/装修污染', icon: '🏠' },
+            { value: 'allergen', label: '过敏原/花粉', icon: '🌸' },
+            { value: 'bacteria', label: '细菌/病毒', icon: '🦠' },
+            { value: 'odor', label: '异味/烟味', icon: '💨' },
+            { value: 'dust', label: '灰尘/毛发', icon: '✨' }
+        ], true);
+    }
+    
+    showStep4Options() {
+        this.showOptions([
+            { value: 'baby', label: '婴幼儿', icon: '👶' },
+            { value: 'elderly', label: '老年人', icon: '👴' },
+            { value: 'pregnant', label: '孕妇', icon: '🤰' },
+            { value: 'allergy', label: '过敏人群', icon: '🤧' },
+            { value: 'respiratory', label: '呼吸道疾病患者', icon: '🫁' },
+            { value: 'pet', label: '宠物家庭', icon: '🐾' },
+            { value: 'general', label: '普通成人', icon: '👨‍👩‍👧‍👦' }
+        ], true);
+    }
+    
+    showStep5Options() {
+        this.showOptions([
+            { value: 'bedroom', label: '卧室', description: '需要静音设计' },
+            { value: 'living', label: '客厅', description: '需要大风量' },
+            { value: 'nursery', label: '婴儿房', description: '需要超静音+安全' },
+            { value: 'office', label: '办公室', description: '需要长时间运行' },
+            { value: 'whole_house', label: '全屋使用', description: '需要大CADR值' }
+        ]);
+    }
+    
+    showStep6Options() {
+        this.showOptions([
+            { value: 'economy', label: '经济型', range: '1000-2000元' },
+            { value: 'standard', label: '标准型', range: '2000-4000元' },
+            { value: 'premium', label: '高端型', range: '4000-8000元' },
+            { value: 'luxury', label: '旗舰型', range: '8000元以上' }
+        ]);
+    }
+    
+    showRecommendations(data) {
+        this.optionsContainer.innerHTML = '';
+        this.displayMessage(data.message, 'bot');
+        
+        // Show result container
+        setTimeout(() => {
+            this.resultContainer.classList.remove('hidden');
+            
+            // Display profile summary
+            if (data.user_profile_summary) {
+                this.displayProfileSummary(data.user_profile_summary);
+            }
+            
+            // Display recommendations
+            if (data.recommendations) {
+                this.displayRecommendedProducts(data.recommendations);
+            }
+            
+            // Scroll to results
+            this.resultContainer.scrollIntoView({ behavior: 'smooth' });
+        }, 500);
+    }
+    
+    displayProfileSummary(summary) {
+        const container = document.getElementById('profile-details');
+        container.innerHTML = `
+            <div class="bg-white rounded-lg p-3">
+                <div class="text-xs text-gray-500">空间面积</div>
+                <div class="font-medium">${summary.area || '-'}</div>
+            </div>
+            <div class="bg-white rounded-lg p-3">
+                <div class="text-xs text-gray-500">所在区域</div>
+                <div class="font-medium">${summary.region || '-'}</div>
+            </div>
+            <div class="bg-white rounded-lg p-3">
+                <div class="text-xs text-gray-500">使用空间</div>
+                <div class="font-medium">${summary.space_type || '-'}</div>
+            </div>
+            <div class="bg-white rounded-lg p-3">
+                <div class="text-xs text-gray-500">预算范围</div>
+                <div class="font-medium">${summary.budget || '-'}</div>
+            </div>
+            <div class="bg-white rounded-lg p-3 col-span-2">
+                <div class="text-xs text-gray-500">关注问题</div>
+                <div class="font-medium">${(summary.problems || []).join('、') || '-'}</div>
+            </div>
+        `;
+    }
+    
+    displayRecommendedProducts(recommendations) {
+        const container = document.getElementById('recommended-products');
+        container.innerHTML = '';
+        
+        recommendations.forEach((rec, index) => {
+            const product = rec.product;
+            const score = rec.score;
+            const reasons = rec.match_reasons || [];
+            
+            const productCard = document.createElement('div');
+            productCard.className = 'bg-gray-50 rounded-xl p-6 flex flex-col md:flex-row gap-6';
+            
+            productCard.innerHTML = `
+                <div class="md:w-1/3">
+                    <div class="relative">
+                        <img src="${product.main_image || product.image}" alt="${product.name}" 
+                             class="w-full h-48 object-contain bg-white rounded-lg"
+                             onerror="this.src='https://via.placeholder.com/300x200?text=Product'">
+                        <div class="absolute top-2 left-2 px-3 py-1 bg-accent-600 text-white text-sm font-medium rounded-full">
+                            匹配度 ${score}%
+                        </div>
+                        ${index === 0 ? '<div class="absolute top-2 right-2 px-3 py-1 bg-primary-600 text-white text-sm font-medium rounded-full">最佳推荐</div>' : ''}
+                    </div>
+                </div>
+                <div class="md:w-2/3">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">${product.name}</h3>
+                    <div class="flex items-center space-x-2 mb-3">
+                        <div class="flex items-center text-yellow-500">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <span class="ml-1 text-sm font-medium">${product.rating}</span>
+                        </div>
+                        <span class="text-gray-400 text-sm">(${product.reviews}条评价)</span>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        ${(product.tags || []).map(tag => `<span class="px-2 py-1 bg-primary-50 text-primary-700 text-xs rounded-full">${tag}</span>`).join('')}
+                    </div>
+                    <div class="mb-4">
+                        <h4 class="text-sm font-medium text-gray-700 mb-2">推荐理由：</h4>
+                        <ul class="space-y-1">
+                            ${reasons.map(reason => `
+                                <li class="flex items-center text-sm text-gray-600">
+                                    <i data-lucide="check" class="w-4 h-4 text-primary-600 mr-2"></i>
+                                    ${reason}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                    <div class="flex items-end justify-between">
+                        <div>
+                            <span class="text-3xl font-bold text-primary-600">¥${product.price}</span>
+                            <span class="text-gray-400 line-through ml-2">¥${product.original_price}</span>
+                        </div>
+                        <a href="/product/${product.id}" class="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                            查看详情
+                        </a>
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(productCard);
+        });
+        
+        // Re-initialize Lucide icons
+        lucide.createIcons();
+    }
+    
+    generateLocalRecommendation() {
+        // Local recommendation logic
+        const products = [
+            {
+                id: 'pro-01',
+                name: '净界者·森林呼吸Pro',
+                price: 2999,
+                original_price: 3599,
+                rating: 4.8,
+                reviews: 5621,
+                tags: ['销量冠军', '除醛专家', '智能互联'],
+                image: '/static/images/products/pro.png'
+            },
+            {
+                id: 'max-01',
+                name: '净界者·清新之风Max',
+                price: 5999,
+                original_price: 7299,
+                rating: 4.9,
+                reviews: 3892,
+                tags: ['旗舰之选', '全能净化', '医疗级'],
+                image: '/static/images/products/max.png'
+            },
+            {
+                id: 'mini-01',
+                name: '净界者·自然守护Mini',
+                price: 1299,
+                original_price: 1599,
+                rating: 4.7,
+                reviews: 2356,
+                tags: ['入门首选', '静音设计', '高性价比'],
+                image: '/static/images/products/mini.png'
+            }
+        ];
+        
+        const recommendations = products.map((product, index) => ({
+            product: product,
+            score: 95 - index * 10,
+            match_reasons: [
+                '适用面积覆盖您的空间',
+                '有效解决您关注的空气问题',
+                '符合您的预算范围'
+            ]
+        }));
+        
+        this.showRecommendations({
+            message: '感谢您的耐心回答！根据您的需求，我为您精心挑选了以下空气管理方案：',
+            recommendations: recommendations,
+            user_profile_summary: {
+                area: this.userProfile.area + '㎡',
+                region: this.getRegionName(this.userProfile.region),
+                space_type: this.getSpaceName(this.userProfile.space),
+                budget: this.getBudgetRange(this.userProfile.budget),
+                problems: (this.userProfile.problems || []).map(p => this.getProblemName(p))
+            }
+        });
+    }
+    
+    getRegionName(key) {
+        const map = { north: '北方地区', south: '南方地区', coastal: '沿海地区', inland: '内陆地区', industrial: '工业区附近' };
+        return map[key] || key;
+    }
+    
+    getSpaceName(key) {
+        const map = { bedroom: '卧室', living: '客厅', nursery: '婴儿房', office: '办公室', whole_house: '全屋' };
+        return map[key] || key;
+    }
+    
+    getBudgetRange(key) {
+        const map = { economy: '1000-2000元', standard: '2000-4000元', premium: '4000-8000元', luxury: '8000元以上' };
+        return map[key] || key;
+    }
+    
+    getProblemName(key) {
+        const map = { pm25: 'PM2.5/雾霾', formaldehyde: '甲醛', allergen: '过敏原', bacteria: '细菌病毒', odor: '异味', dust: '灰尘' };
+        return map[key] || key;
+    }
+    
+    handleInput() {
+        const input = document.getElementById('guide-input');
+        const value = input.value.trim();
+        if (!value) return;
+        
+        this.displayMessage(value, 'user');
+        input.value = '';
+        this.processStep(value);
+    }
+    
+    restart() {
+        this.currentStep = 0;
+        this.userProfile = {};
+        this.messagesContainer.innerHTML = '';
+        this.resultContainer.classList.add('hidden');
+        this.updateProgress(0);
+        this.startGuide();
+    }
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    new SmartGuide();
+});
+</script>
+{% endblock %}

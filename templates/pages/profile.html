@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block title %}我的{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gray-50">
+    {% if current_user %}
+    <!-- 已登录状态 -->
+    <!-- 用户信息卡片 -->
+    <div class="bg-gradient-to-br from-primary-500 to-primary-700 pt-6 pb-16 px-4">
+        <div class="flex items-center space-x-4">
+            <div class="w-16 h-16 rounded-full bg-white/20 overflow-hidden ring-4 ring-white/30">
+                <img src="{{ current_user.avatar }}" alt="头像" class="w-full h-full object-cover"
+                     onerror="this.src='https://via.placeholder.com/100x100?text=User'">
+            </div>
+            <div class="flex-1">
+                <h2 class="text-xl font-bold text-white">{{ current_user.nickname }}</h2>
+                <div class="flex items-center space-x-2 mt-1">
+                    <span class="px-2 py-0.5 bg-white/20 text-white text-xs rounded-full">
+                        L{{ current_user.level }} 会员
+                    </span>
+                    <span class="text-white/80 text-sm">{{ current_user.points }} 积分</span>
+                </div>
+            </div>
+            <a href="/settings" class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                <i data-lucide="settings" class="w-5 h-5 text-white"></i>
+            </a>
+        </div>
+    </div>
+    
+    <!-- 功能卡片 -->
+    <div class="px-4 -mt-10 relative z-10">
+        <div class="bg-white rounded-2xl shadow-lg p-4 mb-4">
+            <div class="grid grid-cols-4 gap-4">
+                <a href="#" class="flex flex-col items-center py-2 touch-feedback">
+                    <div class="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center mb-1">
+                        <i data-lucide="package" class="w-5 h-5 text-orange-600"></i>
+                    </div>
+                    <span class="text-xs text-gray-600">我的订单</span>
+                </a>
+                <a href="#" class="flex flex-col items-center py-2 touch-feedback">
+                    <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center mb-1">
+                        <i data-lucide="heart" class="w-5 h-5 text-red-600"></i>
+                    </div>
+                    <span class="text-xs text-gray-600">我的收藏</span>
+                </a>
+                <a href="#" class="flex flex-col items-center py-2 touch-feedback">
+                    <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mb-1">
+                        <i data-lucide="cpu" class="w-5 h-5 text-blue-600"></i>
+                    </div>
+                    <span class="text-xs text-gray-600">我的设备</span>
+                </a>
+                <a href="#" class="flex flex-col items-center py-2 touch-feedback">
+                    <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center mb-1">
+                        <i data-lucide="ticket" class="w-5 h-5 text-green-600"></i>
+                    </div>
+                    <span class="text-xs text-gray-600">优惠券</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- 订单状态 -->
+        <div class="bg-white rounded-2xl shadow-lg p-4 mb-4">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-semibold text-gray-900">订单状态</h3>
+                <a href="#" class="text-sm text-primary-600">全部订单</a>
+            </div>
+            <div class="grid grid-cols-5 gap-2">
+                <a href="#" class="flex flex-col items-center py-2 touch-feedback">
+                    <div class="relative">
+                        <i data-lucide="wallet" class="w-6 h-6 text-gray-600"></i>
+                    </div>
+                    <span class="text-xs text-gray-600 mt-1">待付款</span>
+                </a>
+                <a href="#" class="flex flex-col items-center py-2 touch-feedback">
+                    <i data-lucide="package" class="w-6 h-6 text-gray-600"></i>
+                    <span class="text-xs text-gray-600 mt-1">待发货</span>
+                </a>
+                <a href="#" class="flex flex-col items-center py-2 touch-feedback">
+                    <i data-lucide="truck" class="w-6 h-6 text-gray-600"></i>
+                    <span class="text-xs text-gray-600 mt-1">待收货</span>
+                </a>
+                <a href="#" class="flex flex-col items-center py-2 touch-feedback">
+                    <i data-lucide="message-square" class="w-6 h-6 text-gray-600"></i>
+                    <span class="text-xs text-gray-600 mt-1">待评价</span>
+                </a>
+                <a href="#" class="flex flex-col items-center py-2 touch-feedback">
+                    <i data-lucide="refresh-cw" class="w-6 h-6 text-gray-600"></i>
+                    <span class="text-xs text-gray-600 mt-1">退换货</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- 服务列表 -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-4">
+            <a href="#" class="flex items-center justify-between px-4 py-4 border-b border-gray-100 touch-feedback">
+                <div class="flex items-center space-x-3">
+                    <i data-lucide="map-pin" class="w-5 h-5 text-gray-500"></i>
+                    <span class="text-gray-900">收货地址</span>
+                </div>
+                <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
+            </a>
+            <a href="#" class="flex items-center justify-between px-4 py-4 border-b border-gray-100 touch-feedback">
+                <div class="flex items-center space-x-3">
+                    <i data-lucide="headphones" class="w-5 h-5 text-gray-500"></i>
+                    <span class="text-gray-900">联系客服</span>
+                </div>
+                <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
+            </a>
+            <a href="#" class="flex items-center justify-between px-4 py-4 border-b border-gray-100 touch-feedback">
+                <div class="flex items-center space-x-3">
+                    <i data-lucide="help-circle" class="w-5 h-5 text-gray-500"></i>
+                    <span class="text-gray-900">常见问题</span>
+                </div>
+                <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
+            </a>
+            <a href="#" class="flex items-center justify-between px-4 py-4 touch-feedback">
+                <div class="flex items-center space-x-3">
+                    <i data-lucide="info" class="w-5 h-5 text-gray-500"></i>
+                    <span class="text-gray-900">关于我们</span>
+                </div>
+                <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
+            </a>
+        </div>
+        
+        <!-- 退出登录 -->
+        <button onclick="logout()" class="w-full py-4 bg-white rounded-2xl shadow-lg text-red-500 font-medium touch-feedback">
+            退出登录
+        </button>
+    </div>
+    
+    {% else %}
+    <!-- 未登录状态 -->
+    <div class="flex flex-col items-center justify-center min-h-[60vh] px-6">
+        <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+            <i data-lucide="user" class="w-12 h-12 text-gray-400"></i>
+        </div>
+        <h2 class="text-xl font-bold text-gray-900 mb-2">登录森系智韵</h2>
+        <p class="text-gray-500 text-center mb-8">登录后享受更多会员权益和个性化服务</p>
+        <a href="/login" class="w-full max-w-xs py-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl font-semibold text-center shadow-lg shadow-primary-500/30 touch-feedback">
+            立即登录
+        </a>
+    </div>
+    
+    <!-- 未登录也可见的服务 -->
+    <div class="px-4 mt-8">
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <a href="#" class="flex items-center justify-between px-4 py-4 border-b border-gray-100 touch-feedback">
+                <div class="flex items-center space-x-3">
+                    <i data-lucide="headphones" class="w-5 h-5 text-gray-500"></i>
+                    <span class="text-gray-900">联系客服</span>
+                </div>
+                <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
+            </a>
+            <a href="#" class="flex items-center justify-between px-4 py-4 border-b border-gray-100 touch-feedback">
+                <div class="flex items-center space-x-3">
+                    <i data-lucide="help-circle" class="w-5 h-5 text-gray-500"></i>
+                    <span class="text-gray-900">常见问题</span>
+                </div>
+                <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
+            </a>
+            <a href="/brand" class="flex items-center justify-between px-4 py-4 touch-feedback">
+                <div class="flex items-center space-x-3">
+                    <i data-lucide="info" class="w-5 h-5 text-gray-500"></i>
+                    <span class="text-gray-900">关于我们</span>
+                </div>
+                <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function logout() {
+    if (confirm('确定要退出登录吗？')) {
+        fetch('/api/auth/logout', { method: 'POST' })
+            .then(() => {
+                window.location.href = '/';
+            });
+    }
+}
+</script>
+{% endblock %}

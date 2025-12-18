@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+
+{% block title %}登录{% endblock %}
+
+{% block extra_head %}
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+    /* iOS风格优化 */
+    .ios-input {
+        -webkit-appearance: none;
+        appearance: none;
+        border-radius: 12px;
+    }
+    
+    .ios-btn {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    }
+    
+    .safe-area-bottom {
+        padding-bottom: env(safe-area-inset-bottom, 20px);
+    }
+    
+    .safe-area-top {
+        padding-top: env(safe-area-inset-top, 44px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gradient-to-br from-primary-50 via-white to-accent-50 flex flex-col safe-area-top safe-area-bottom">
+    <!-- 顶部装饰 -->
+    <div class="absolute top-0 left-0 right-0 h-64 bg-gradient-to-br from-primary-500 to-primary-600 rounded-b-[3rem] opacity-10"></div>
+    
+    <!-- 主内容区 -->
+    <div class="flex-1 flex flex-col justify-center px-6 py-8 relative z-10">
+        <!-- Logo区域 -->
+        <div class="text-center mb-8">
+            <div class="w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-primary-500/30">
+                <i data-lucide="wind" class="w-10 h-10 text-white"></i>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-900">森系智韵</h1>
+            <p class="text-gray-500 text-sm mt-1">智能空气管理平台</p>
+        </div>
+        
+        <!-- 登录卡片 -->
+        <div class="bg-white rounded-3xl shadow-xl p-6 mb-6">
+            <!-- 手机号登录 -->
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">手机号</label>
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">+86</span>
+                    <input type="tel" 
+                           class="ios-input w-full pl-14 pr-4 py-4 bg-gray-50 border-0 rounded-xl text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all"
+                           placeholder="请输入手机号"
+                           maxlength="11">
+                </div>
+            </div>
+            
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">验证码</label>
+                <div class="flex space-x-3">
+                    <input type="text" 
+                           class="ios-input flex-1 px-4 py-4 bg-gray-50 border-0 rounded-xl text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all"
+                           placeholder="请输入验证码"
+                           maxlength="6">
+                    <button class="ios-btn px-5 py-4 bg-primary-50 text-primary-600 rounded-xl font-medium whitespace-nowrap active:bg-primary-100 transition-colors">
+                        获取验证码
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 登录按钮 -->
+            <button class="ios-btn w-full py-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl font-semibold text-lg shadow-lg shadow-primary-500/30 active:scale-[0.98] transition-transform">
+                登录 / 注册
+            </button>
+        </div>
+        
+        <!-- 分割线 -->
+        <div class="flex items-center mb-6">
+            <div class="flex-1 h-px bg-gray-200"></div>
+            <span class="px-4 text-sm text-gray-400">其他登录方式</span>
+            <div class="flex-1 h-px bg-gray-200"></div>
+        </div>
+        
+        <!-- 第三方登录 -->
+        <div class="flex justify-center space-x-6 mb-8">
+            <!-- 微信登录 -->
+            <button class="ios-btn w-14 h-14 bg-[#07C160] rounded-full flex items-center justify-center shadow-lg shadow-[#07C160]/30 active:scale-95 transition-transform"
+                    onclick="handleSocialLogin('wechat')">
+                <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-6.656-6.088V8.89c-.135-.01-.269-.03-.407-.03zm-2.53 3.274c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/>
+                </svg>
+            </button>
+            
+            <!-- QQ登录 -->
+            <button class="ios-btn w-14 h-14 bg-[#12B7F5] rounded-full flex items-center justify-center shadow-lg shadow-[#12B7F5]/30 active:scale-95 transition-transform"
+                    onclick="handleSocialLogin('qq')">
+                <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M21.395 15.035a39.548 39.548 0 0 0-.803-2.264l-1.079-2.695c.001-.032.014-.396.014-.396 0-4.636-3.023-8.399-6.527-8.399S6.473 5.044 6.473 9.68c0 .239.011.394.011.394l-1.079 2.695a39.548 39.548 0 0 0-.803 2.264c-.756 2.523-.566 3.727-.328 3.727.238 0 .891-1.186 1.486-2.371.016.041.033.081.049.122-.381 1.353-.566 2.523-.566 3.727 0 1.204.185 2.374.566 3.727-.016.041-.033.081-.049.122-.595-1.185-1.248-2.371-1.486-2.371-.238 0-.428 1.204.328 3.727.756 2.523 1.486 3.727 1.486 3.727s.891-1.186 1.486-2.371c.016.041.033.081.049.122-.381 1.353-.566 2.523-.566 3.727 0 .803.095 1.606.283 2.371.188.765.472 1.486.851 2.154.379.668.851 1.289 1.414 1.843a7.65 7.65 0 0 0 1.843 1.414c.668.379 1.389.663 2.154.851.765.188 1.568.283 2.371.283s1.606-.095 2.371-.283c.765-.188 1.486-.472 2.154-.851a7.65 7.65 0 0 0 1.843-1.414c.563-.554 1.035-1.175 1.414-1.843.379-.668.663-1.389.851-2.154.188-.765.283-1.568.283-2.371 0-1.204-.185-2.374-.566-3.727.016-.041.033-.081.049-.122.595 1.185 1.248 2.371 1.486 2.371.238 0 .428-1.204-.328-3.727z"/>
+                </svg>
+            </button>
+            
+            <!-- GitHub登录 -->
+            <button class="ios-btn w-14 h-14 bg-[#24292F] rounded-full flex items-center justify-center shadow-lg shadow-gray-900/30 active:scale-95 transition-transform"
+                    onclick="handleSocialLogin('github')">
+                <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- 协议 -->
+        <p class="text-center text-xs text-gray-400 px-4">
+            登录即表示同意
+            <a href="#" class="text-primary-600">《用户协议》</a>
+            和
+            <a href="#" class="text-primary-600">《隐私政策》</a>
+        </p>
+    </div>
+    
+    <!-- 底部导航提示 -->
+    <div class="px-6 pb-6">
+        <a href="/" class="ios-btn block w-full py-3 text-center text-gray-500 text-sm active:text-gray-700">
+            暂不登录，先逛逛
+        </a>
+    </div>
+</section>
+
+<!-- 登录弹窗 -->
+<div id="login-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-end justify-center">
+    <div class="bg-white rounded-t-3xl w-full max-w-lg p-6 pb-10 safe-area-bottom animate-slide-up">
+        <div class="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-6"></div>
+        <div id="modal-content" class="text-center">
+            <!-- 动态内容 -->
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// 第三方登录处理
+function handleSocialLogin(platform) {
+    const modal = document.getElementById('login-modal');
+    const content = document.getElementById('modal-content');
+    
+    const platformInfo = {
+        wechat: {
+            name: '微信',
+            color: '#07C160',
+            icon: `<svg class="w-16 h-16 mx-auto mb-4" viewBox="0 0 24 24" fill="#07C160">
+                <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348z"/>
+            </svg>`,
+            message: '请使用微信扫描二维码登录'
+        },
+        qq: {
+            name: 'QQ',
+            color: '#12B7F5',
+            icon: `<svg class="w-16 h-16 mx-auto mb-4" viewBox="0 0 24 24" fill="#12B7F5">
+                <path d="M12.003 2c-2.265 0-6.29 1.364-6.29 7.325v1.195S3.55 14.96 3.55 17.474c0 .665.17 1.025.281 1.025.114 0 .902-.484 1.748-2.072 0 0-.18 2.197 1.904 3.967 0 0-1.77.495-1.77 1.182 0 .686 4.078.43 6.29 0 2.239.425 6.287.687 6.287 0 0-.688-1.768-1.182-1.768-1.182 2.085-1.77 1.905-3.967 1.905-3.967.845 1.588 1.634 2.072 1.746 2.072.111 0 .283-.36.283-1.025 0-2.514-2.166-6.954-2.166-6.954V9.325C18.29 3.364 14.268 2 12.003 2z"/>
+            </svg>`,
+            message: '正在跳转到QQ登录...'
+        },
+        github: {
+            name: 'GitHub',
+            color: '#24292F',
+            icon: `<svg class="w-16 h-16 mx-auto mb-4" viewBox="0 0 24 24" fill="#24292F">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>`,
+            message: '正在跳转到GitHub登录...'
+        }
+    };
+    
+    const info = platformInfo[platform];
+    
+    content.innerHTML = `
+        ${info.icon}
+        <h3 class="text-xl font-bold text-gray-900 mb-2">${info.name}登录</h3>
+        <p class="text-gray-500 mb-6">${info.message}</p>
+        <div class="flex space-x-4">
+            <button onclick="closeModal()" class="flex-1 py-3 bg-gray-100 text-gray-700 rounded-xl font-medium">取消</button>
+            <button onclick="redirectToAuth('${platform}')" class="flex-1 py-3 text-white rounded-xl font-medium" style="background-color: ${info.color}">确认</button>
+        </div>
+    `;
+    
+    modal.classList.remove('hidden');
+}
+
+function closeModal() {
+    document.getElementById('login-modal').classList.add('hidden');
+}
+
+function redirectToAuth(platform) {
+    // 跳转到对应的OAuth认证
+    window.location.href = `/auth/${platform}`;
+}
+
+// 点击背景关闭弹窗
+document.getElementById('login-modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeModal();
+    }
+});
+
+// 添加滑动动画
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideUp {
+        from {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    .animate-slide-up {
+        animation: slideUp 0.3s ease-out;
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}

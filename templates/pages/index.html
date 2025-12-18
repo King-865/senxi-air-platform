@@ -3,362 +3,298 @@
 {% block title %}首页{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="relative h-screen flex items-center justify-center overflow-hidden">
-    <!-- Background Image -->
-    <div class="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920&q=80" 
-             alt="Forest Background" 
-             class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60"></div>
+<!-- Hero Section - 移动端优化 -->
+<section class="relative bg-gradient-to-br from-primary-50 via-white to-accent-50 overflow-hidden">
+    <!-- 背景装饰 -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-primary-200 rounded-full opacity-20 blur-3xl"></div>
+        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-accent-200 rounded-full opacity-20 blur-3xl"></div>
     </div>
     
-    <!-- Content -->
-    <div class="relative z-10 text-center text-white px-4 max-w-5xl mx-auto">
-        <div class="mb-6 flex justify-center">
-            <div class="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full flex items-center space-x-2">
-                <i data-lucide="leaf" class="w-5 h-5 text-primary-400"></i>
-                <span class="text-sm">森系智韵 · 智能空气管理平台</span>
+    <div class="relative max-w-7xl mx-auto px-4 py-8 md:py-16 lg:py-24">
+        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+            <!-- 文字内容 -->
+            <div class="flex-1 text-center lg:text-left">
+                <div class="inline-flex items-center px-3 py-1.5 bg-primary-100 text-primary-700 rounded-full text-sm font-medium mb-4">
+                    <i data-lucide="sparkles" class="w-4 h-4 mr-1.5"></i>
+                    智能空气管理专家
+                </div>
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+                    森系智韵<br class="md:hidden">
+                    <span class="text-primary-600">守护每一次呼吸</span>
+                </h1>
+                <p class="text-gray-600 text-base md:text-lg mb-6 max-w-xl mx-auto lg:mx-0">
+                    专业空气净化解决方案，为您打造清新健康的呼吸空间
+                </p>
+                <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                    <a href="/guide" class="px-6 py-3.5 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl font-semibold shadow-lg shadow-primary-500/30 touch-feedback flex items-center justify-center space-x-2">
+                        <i data-lucide="sparkles" class="w-5 h-5"></i>
+                        <span>智能导购</span>
+                    </a>
+                    <a href="/products" class="px-6 py-3.5 bg-white text-gray-700 rounded-xl font-semibold border border-gray-200 touch-feedback flex items-center justify-center space-x-2">
+                        <i data-lucide="box" class="w-5 h-5"></i>
+                        <span>浏览产品</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Hero图片 -->
+            <div class="flex-1 w-full max-w-md lg:max-w-lg">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-gradient-to-br from-primary-400 to-accent-400 rounded-3xl blur-2xl opacity-20 transform rotate-6"></div>
+                    <div class="relative bg-gradient-to-br from-gray-100 to-gray-200 rounded-3xl p-6 md:p-8">
+                        <img src="https://via.placeholder.com/400x400?text=Air+Purifier" alt="空气净化器" 
+                             class="w-full h-auto object-contain">
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            呼吸自然<br>
-            <span class="text-primary-400">拥抱纯净</span>
-        </h1>
-        
-        <p class="text-xl md:text-2xl text-white/80 mb-8 max-w-2xl mx-auto">
-            专业空气净化解决方案，守护每一次呼吸
-        </p>
-        
-        <!-- Stats -->
-        <div class="flex flex-wrap justify-center gap-6 mb-10">
-            <div class="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-4">
-                <div class="text-3xl font-bold text-primary-400">99.97%</div>
-                <div class="text-sm text-white/70">过滤效率</div>
-            </div>
-            <div class="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-4">
-                <div class="text-3xl font-bold text-primary-400">50万+</div>
-                <div class="text-sm text-white/70">信赖用户</div>
-            </div>
-            <div class="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-4">
-                <div class="text-3xl font-bold text-primary-400">24/7</div>
-                <div class="text-sm text-white/70">智能守护</div>
-            </div>
-        </div>
-        
-        <!-- CTA Buttons -->
-        <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="/guide" class="px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-semibold transition-all hover:scale-105 flex items-center justify-center space-x-2">
-                <i data-lucide="sparkles" class="w-5 h-5"></i>
-                <span>AI智能推荐</span>
-            </a>
-            <a href="/products" class="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white rounded-xl font-semibold transition-all flex items-center justify-center space-x-2">
-                <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                <span>了解更多</span>
-            </a>
-        </div>
-    </div>
-    
-    <!-- Scroll Indicator -->
-    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <i data-lucide="chevron-down" class="w-8 h-8 text-white/60"></i>
     </div>
 </section>
 
-<!-- Products Section -->
-<section class="py-20 bg-gradient-to-b from-gray-50 to-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Section Header -->
-        <div class="text-center mb-12">
-            <div class="inline-flex items-center space-x-2 px-4 py-2 bg-primary-100 text-primary-700 rounded-full mb-4">
-                <i data-lucide="star" class="w-4 h-4"></i>
-                <span class="text-sm font-medium">明星产品</span>
+<!-- 空气质量卡片 - 移动端优化 -->
+<section class="py-6 md:py-8 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl p-4 md:p-6 text-white">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h3 class="font-semibold text-lg">今日空气质量</h3>
+                    <p class="text-white/80 text-sm">北京市</p>
+                </div>
+                <div class="text-right">
+                    <div class="text-3xl md:text-4xl font-bold">68</div>
+                    <div class="text-sm text-white/80">AQI 良</div>
+                </div>
             </div>
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">净界者系列</h2>
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                源自森林的净化科技，为您打造清新呼吸空间
-            </p>
+            <div class="grid grid-cols-4 gap-2 md:gap-4">
+                <div class="bg-white/20 rounded-xl p-2 md:p-3 text-center">
+                    <div class="text-xs text-white/80">PM2.5</div>
+                    <div class="font-semibold">45</div>
+                </div>
+                <div class="bg-white/20 rounded-xl p-2 md:p-3 text-center">
+                    <div class="text-xs text-white/80">PM10</div>
+                    <div class="font-semibold">62</div>
+                </div>
+                <div class="bg-white/20 rounded-xl p-2 md:p-3 text-center">
+                    <div class="text-xs text-white/80">温度</div>
+                    <div class="font-semibold">22°C</div>
+                </div>
+                <div class="bg-white/20 rounded-xl p-2 md:p-3 text-center">
+                    <div class="text-xs text-white/80">湿度</div>
+                    <div class="font-semibold">55%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 快捷入口 - 移动端优化 -->
+<section class="py-6 md:py-8 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-4 gap-3 md:gap-6">
+            <a href="/guide" class="flex flex-col items-center p-3 md:p-4 bg-white rounded-2xl shadow-sm touch-feedback">
+                <div class="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-primary-100 to-primary-200 rounded-xl flex items-center justify-center mb-2">
+                    <i data-lucide="sparkles" class="w-6 h-6 md:w-7 md:h-7 text-primary-600"></i>
+                </div>
+                <span class="text-xs md:text-sm text-gray-700 text-center">智能导购</span>
+            </a>
+            <a href="/products" class="flex flex-col items-center p-3 md:p-4 bg-white rounded-2xl shadow-sm touch-feedback">
+                <div class="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center mb-2">
+                    <i data-lucide="box" class="w-6 h-6 md:w-7 md:h-7 text-blue-600"></i>
+                </div>
+                <span class="text-xs md:text-sm text-gray-700 text-center">产品中心</span>
+            </a>
+            <a href="/research" class="flex flex-col items-center p-3 md:p-4 bg-white rounded-2xl shadow-sm touch-feedback">
+                <div class="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl flex items-center justify-center mb-2">
+                    <i data-lucide="book-open" class="w-6 h-6 md:w-7 md:h-7 text-purple-600"></i>
+                </div>
+                <span class="text-xs md:text-sm text-gray-700 text-center">空气研究</span>
+            </a>
+            <a href="/community" class="flex flex-col items-center p-3 md:p-4 bg-white rounded-2xl shadow-sm touch-feedback">
+                <div class="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl flex items-center justify-center mb-2">
+                    <i data-lucide="users" class="w-6 h-6 md:w-7 md:h-7 text-orange-600"></i>
+                </div>
+                <span class="text-xs md:text-sm text-gray-700 text-center">健康社区</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- 热门产品 - 移动端优化 -->
+<section class="py-8 md:py-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl md:text-2xl font-bold text-gray-900">热门产品</h2>
+            <a href="/products" class="text-primary-600 text-sm font-medium flex items-center touch-feedback">
+                查看全部
+                <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+            </a>
         </div>
         
-        <!-- Products Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            {% for product in products %}
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all hover:-translate-y-2 group">
-                <!-- Product Image -->
-                <div class="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-                    <img src="{{ product.main_image }}" alt="{{ product.name }}" 
-                         class="w-full h-full object-contain p-8 group-hover:scale-110 transition-transform duration-300"
-                         onerror="this.src='https://via.placeholder.com/300x300?text=Product'">
-                    {% if product.badge %}
-                    <div class="absolute top-4 left-4 px-3 py-1 bg-{{ product.badge_color }}-500 text-white text-sm font-medium rounded-full">
-                        {{ product.badge }}
+        <!-- 横向滚动产品列表 - 移动端 -->
+        <div class="lg:hidden overflow-x-auto hide-scrollbar -mx-4 px-4">
+            <div class="flex space-x-4" style="width: max-content;">
+                {% for product in products[:4] %}
+                <a href="/product/{{ product.id }}" class="w-40 flex-shrink-0 bg-white rounded-2xl shadow-sm overflow-hidden touch-feedback">
+                    <div class="h-32 bg-gray-100 p-2">
+                        <img src="{{ product.main_image }}" alt="{{ product.name }}" 
+                             class="w-full h-full object-contain"
+                             onerror="this.src='https://via.placeholder.com/200x200?text=Product'">
                     </div>
-                    {% endif %}
-                </div>
-                
-                <!-- Product Info -->
-                <div class="p-6">
-                    <div class="flex items-center space-x-2 mb-2">
-                        <div class="flex items-center text-yellow-500">
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <span class="ml-1 text-sm font-medium">{{ product.rating }}</span>
+                    <div class="p-3">
+                        <h3 class="font-medium text-gray-900 text-sm line-clamp-2 mb-1">{{ product.name }}</h3>
+                        <div class="flex items-baseline space-x-1">
+                            <span class="text-primary-600 font-bold">¥{{ product.price }}</span>
+                            <span class="text-xs text-gray-400 line-through">¥{{ product.original_price }}</span>
                         </div>
-                        <span class="text-gray-400 text-sm">({{ product.reviews }}条评价)</span>
                     </div>
-                    
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">{{ product.name }}</h3>
-                    
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        {% for tag in product.tags[:3] %}
-                        <span class="px-2 py-1 bg-primary-50 text-primary-700 text-xs rounded-full">{{ tag }}</span>
-                        {% endfor %}
-                    </div>
-                    
-                    <div class="flex items-end justify-between">
-                        <div>
-                            <span class="text-3xl font-bold text-primary-600">¥{{ product.price }}</span>
-                            <span class="text-gray-400 line-through ml-2">¥{{ product.original_price }}</span>
-                        </div>
-                        <a href="/product/{{ product.id }}" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
-                            了解详情
-                        </a>
-                    </div>
-                </div>
+                </a>
+                {% endfor %}
             </div>
+        </div>
+        
+        <!-- 网格布局 - 桌面端 -->
+        <div class="hidden lg:grid grid-cols-4 gap-6">
+            {% for product in products[:4] %}
+            <a href="/product/{{ product.id }}" class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-48 bg-gray-100 p-4">
+                    <img src="{{ product.main_image }}" alt="{{ product.name }}" 
+                         class="w-full h-full object-contain"
+                         onerror="this.src='https://via.placeholder.com/200x200?text=Product'">
+                </div>
+                <div class="p-4">
+                    <h3 class="font-medium text-gray-900 mb-2 line-clamp-2">{{ product.name }}</h3>
+                    <div class="flex items-baseline space-x-2">
+                        <span class="text-xl text-primary-600 font-bold">¥{{ product.price }}</span>
+                        <span class="text-sm text-gray-400 line-through">¥{{ product.original_price }}</span>
+                    </div>
+                </div>
+            </a>
             {% endfor %}
         </div>
+    </div>
+</section>
+
+<!-- 品牌特色 - 移动端优化 -->
+<section class="py-8 md:py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-xl md:text-2xl font-bold text-gray-900 text-center mb-6 md:mb-8">为什么选择森系智韵</h2>
         
-        <!-- Service Cards -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
-                <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <i data-lucide="shield-check" class="w-6 h-6 text-primary-600"></i>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            <div class="bg-white rounded-2xl p-4 md:p-6 text-center shadow-sm">
+                <div class="w-12 h-12 md:w-14 md:h-14 bg-primary-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <i data-lucide="shield-check" class="w-6 h-6 md:w-7 md:h-7 text-primary-600"></i>
                 </div>
-                <h4 class="font-semibold text-gray-900">品质保证</h4>
-                <p class="text-sm text-gray-500">3年质保</p>
+                <h3 class="font-semibold text-gray-900 mb-1 text-sm md:text-base">医疗级净化</h3>
+                <p class="text-gray-500 text-xs md:text-sm">H13级HEPA滤网</p>
             </div>
-            <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
-                <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <i data-lucide="truck" class="w-6 h-6 text-primary-600"></i>
+            <div class="bg-white rounded-2xl p-4 md:p-6 text-center shadow-sm">
+                <div class="w-12 h-12 md:w-14 md:h-14 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <i data-lucide="wifi" class="w-6 h-6 md:w-7 md:h-7 text-blue-600"></i>
                 </div>
-                <h4 class="font-semibold text-gray-900">快速配送</h4>
-                <p class="text-sm text-gray-500">全国包邮</p>
+                <h3 class="font-semibold text-gray-900 mb-1 text-sm md:text-base">智能互联</h3>
+                <p class="text-gray-500 text-xs md:text-sm">APP远程控制</p>
             </div>
-            <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
-                <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <i data-lucide="settings" class="w-6 h-6 text-primary-600"></i>
+            <div class="bg-white rounded-2xl p-4 md:p-6 text-center shadow-sm">
+                <div class="w-12 h-12 md:w-14 md:h-14 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <i data-lucide="volume-x" class="w-6 h-6 md:w-7 md:h-7 text-purple-600"></i>
                 </div>
-                <h4 class="font-semibold text-gray-900">免费安装</h4>
-                <p class="text-sm text-gray-500">上门服务</p>
+                <h3 class="font-semibold text-gray-900 mb-1 text-sm md:text-base">静音设计</h3>
+                <p class="text-gray-500 text-xs md:text-sm">低至20分贝</p>
             </div>
-            <div class="bg-white rounded-xl p-6 text-center shadow-sm hover:shadow-md transition-shadow">
-                <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <i data-lucide="refresh-cw" class="w-6 h-6 text-primary-600"></i>
+            <div class="bg-white rounded-2xl p-4 md:p-6 text-center shadow-sm">
+                <div class="w-12 h-12 md:w-14 md:h-14 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <i data-lucide="award" class="w-6 h-6 md:w-7 md:h-7 text-green-600"></i>
                 </div>
-                <h4 class="font-semibold text-gray-900">30天试用</h4>
-                <p class="text-sm text-gray-500">无忧退换</p>
+                <h3 class="font-semibold text-gray-900 mb-1 text-sm md:text-base">品质保障</h3>
+                <p class="text-gray-500 text-xs md:text-sm">3年整机质保</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Air Quality Education Section -->
-<section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
-            <div class="inline-flex items-center space-x-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-full mb-4">
-                <i data-lucide="book-open" class="w-4 h-4"></i>
-                <span class="text-sm font-medium">空气研究院</span>
-            </div>
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">空气质量科普</h2>
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                了解空气质量，守护健康呼吸
-            </p>
-        </div>
-        
-        <!-- AQI Guide -->
-        <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 mb-8">
-            <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                <i data-lucide="activity" class="w-6 h-6 mr-2 text-primary-600"></i>
-                空气质量指数 (AQI)
-            </h3>
-            <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
-                <div class="bg-green-500 text-white rounded-xl p-4 text-center">
-                    <div class="text-2xl font-bold">0-50</div>
-                    <div class="text-sm opacity-90">优</div>
-                </div>
-                <div class="bg-yellow-500 text-white rounded-xl p-4 text-center">
-                    <div class="text-2xl font-bold">51-100</div>
-                    <div class="text-sm opacity-90">良</div>
-                </div>
-                <div class="bg-orange-500 text-white rounded-xl p-4 text-center">
-                    <div class="text-2xl font-bold">101-150</div>
-                    <div class="text-sm opacity-90">轻度污染</div>
-                </div>
-                <div class="bg-red-500 text-white rounded-xl p-4 text-center">
-                    <div class="text-2xl font-bold">151-200</div>
-                    <div class="text-sm opacity-90">中度污染</div>
-                </div>
-                <div class="bg-purple-500 text-white rounded-xl p-4 text-center">
-                    <div class="text-2xl font-bold">201-300</div>
-                    <div class="text-sm opacity-90">重度污染</div>
-                </div>
-                <div class="bg-red-900 text-white rounded-xl p-4 text-center">
-                    <div class="text-2xl font-bold">300+</div>
-                    <div class="text-sm opacity-90">严重污染</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Pollutants Info -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow">
-                <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                    <i data-lucide="cloud" class="w-6 h-6 text-red-600"></i>
-                </div>
-                <h4 class="text-xl font-bold text-gray-900 mb-2">PM2.5</h4>
-                <p class="text-gray-600 mb-4">
-                    直径小于2.5微米的细颗粒物，可深入肺部甚至进入血液，对健康危害极大。
-                </p>
-                <div class="flex items-center text-primary-600 font-medium">
-                    <span>了解更多</span>
-                    <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                </div>
-            </div>
+<!-- 智能导购入口 - 移动端优化 -->
+<section class="py-8 md:py-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="bg-gradient-to-br from-accent-500 to-primary-600 rounded-2xl md:rounded-3xl p-6 md:p-10 text-white relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+            <div class="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
             
-            <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow">
-                <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
-                    <i data-lucide="home" class="w-6 h-6 text-yellow-600"></i>
+            <div class="relative z-10">
+                <div class="flex items-center space-x-2 mb-3">
+                    <i data-lucide="sparkles" class="w-5 h-5"></i>
+                    <span class="text-sm font-medium text-white/90">AI智能推荐</span>
                 </div>
-                <h4 class="text-xl font-bold text-gray-900 mb-2">甲醛</h4>
-                <p class="text-gray-600 mb-4">
-                    室内装修主要污染物，世界卫生组织认定的一类致癌物，释放周期可达3-15年。
-                </p>
-                <div class="flex items-center text-primary-600 font-medium">
-                    <span>了解更多</span>
-                    <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                </div>
-            </div>
-            
-            <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow">
-                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-                    <i data-lucide="bug" class="w-6 h-6 text-purple-600"></i>
-                </div>
-                <h4 class="text-xl font-bold text-gray-900 mb-2">细菌病毒</h4>
-                <p class="text-gray-600 mb-4">
-                    通过空气传播的病原微生物，可引发呼吸道感染、流感等疾病，需要有效防护。
-                </p>
-                <div class="flex items-center text-primary-600 font-medium">
-                    <span>了解更多</span>
-                    <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- AI Recommendation Section -->
-<section class="py-20 bg-gradient-to-br from-accent-600 to-accent-700">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col lg:flex-row items-center gap-12">
-            <div class="lg:w-1/2 text-white">
-                <div class="inline-flex items-center space-x-2 px-4 py-2 bg-white/20 rounded-full mb-6">
-                    <i data-lucide="sparkles" class="w-4 h-4"></i>
-                    <span class="text-sm font-medium">AI智能导购</span>
-                </div>
-                <h2 class="text-4xl md:text-5xl font-bold mb-6">
-                    让AI为您<br>定制专属方案
-                </h2>
-                <p class="text-xl text-white/80 mb-8">
-                    通过简单的几个问题，我们的智能系统将根据您的房屋面积、居住区域、空气问题和使用人群，为您量身推荐最适合的空气净化方案。
-                </p>
-                <ul class="space-y-4 mb-8">
-                    <li class="flex items-center space-x-3">
-                        <div class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
-                            <i data-lucide="check" class="w-4 h-4"></i>
-                        </div>
-                        <span>智能分析您的空气需求</span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <div class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
-                            <i data-lucide="check" class="w-4 h-4"></i>
-                        </div>
-                        <span>结合区域空气特征推荐</span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <div class="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
-                            <i data-lucide="check" class="w-4 h-4"></i>
-                        </div>
-                        <span>精准匹配最佳产品方案</span>
-                    </li>
-                </ul>
-                <a href="/guide" class="inline-flex items-center space-x-2 px-8 py-4 bg-white text-accent-700 rounded-xl font-semibold hover:bg-gray-100 transition-colors">
-                    <i data-lucide="play" class="w-5 h-5"></i>
+                <h2 class="text-2xl md:text-3xl font-bold mb-3">不知道选哪款？</h2>
+                <p class="text-white/80 mb-6 text-sm md:text-base">回答几个简单问题，AI为您推荐最适合的空气净化方案</p>
+                <a href="/guide" class="inline-flex items-center px-6 py-3 bg-white text-primary-600 rounded-xl font-semibold touch-feedback">
                     <span>开始智能导购</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
                 </a>
             </div>
-            
-            <div class="lg:w-1/2">
-                <div class="bg-white rounded-2xl shadow-2xl p-6">
-                    <div class="flex items-center space-x-3 mb-6">
-                        <div class="w-10 h-10 bg-accent-100 rounded-full flex items-center justify-center">
-                            <i data-lucide="bot" class="w-6 h-6 text-accent-600"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-gray-900">智能空气顾问</h4>
-                            <p class="text-sm text-gray-500">正在为您服务...</p>
-                        </div>
-                    </div>
-                    
-                    <div class="space-y-4">
-                        <div class="bg-gray-100 rounded-lg p-4">
-                            <p class="text-gray-700">您好！我是森系智韵的智能空气顾问。请问您的房间面积大约是多少平方米？</p>
-                        </div>
-                        <div class="bg-accent-100 rounded-lg p-4 ml-8">
-                            <p class="text-accent-800">大约40平方米</p>
-                        </div>
-                        <div class="bg-gray-100 rounded-lg p-4">
-                            <p class="text-gray-700">好的，40㎡的空间。请问您最关注哪些空气问题？</p>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-6 flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">PM2.5/雾霾</span>
-                        <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">甲醛</span>
-                        <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">过敏原</span>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </section>
 
-<!-- CTA Section -->
-<section class="py-20 bg-gradient-to-r from-primary-600 to-primary-700">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div class="flex justify-center mb-6">
-            <div class="flex -space-x-2">
-                <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                    <i data-lucide="users" class="w-6 h-6 text-white"></i>
+<!-- 用户评价 - 移动端优化 -->
+<section class="py-8 md:py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-xl md:text-2xl font-bold text-gray-900 text-center mb-6 md:mb-8">用户好评</h2>
+        
+        <!-- 横向滚动 - 移动端 -->
+        <div class="overflow-x-auto hide-scrollbar -mx-4 px-4">
+            <div class="flex space-x-4" style="width: max-content;">
+                <div class="w-72 bg-white rounded-2xl p-5 shadow-sm flex-shrink-0">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                            <span class="text-primary-600 font-bold">张</span>
+                        </div>
+                        <div>
+                            <div class="font-medium text-gray-900 text-sm">张先生</div>
+                            <div class="flex items-center">
+                                {% for i in range(5) %}
+                                <i data-lucide="star" class="w-3 h-3 text-yellow-400 fill-current"></i>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm line-clamp-3">新房装修后买的，除甲醛效果很明显，开机后明显感觉空气清新了很多。噪音也很小，睡眠模式几乎听不到声音。</p>
+                </div>
+                
+                <div class="w-72 bg-white rounded-2xl p-5 shadow-sm flex-shrink-0">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center">
+                            <span class="text-pink-600 font-bold">李</span>
+                        </div>
+                        <div>
+                            <div class="font-medium text-gray-900 text-sm">李女士</div>
+                            <div class="flex items-center">
+                                {% for i in range(5) %}
+                                <i data-lucide="star" class="w-3 h-3 text-yellow-400 fill-current"></i>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm line-clamp-3">家里有宝宝，特意选了医疗级的。APP控制很方便，可以随时查看空气质量。滤芯更换提醒也很贴心。</p>
+                </div>
+                
+                <div class="w-72 bg-white rounded-2xl p-5 shadow-sm flex-shrink-0">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                            <span class="text-blue-600 font-bold">王</span>
+                        </div>
+                        <div>
+                            <div class="font-medium text-gray-900 text-sm">王先生</div>
+                            <div class="flex items-center">
+                                {% for i in range(5) %}
+                                <i data-lucide="star" class="w-3 h-3 text-yellow-400 fill-current"></i>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm line-clamp-3">过敏体质，每到换季就难受。用了这款净化器后，打喷嚏的次数明显减少了，晚上睡眠质量也好了很多。</p>
                 </div>
             </div>
-        </div>
-        <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">
-            加入50万+用户的选择
-        </h2>
-        <p class="text-xl text-white/80 mb-8">
-            开启您的清新呼吸之旅，让每一次呼吸都充满自然的纯净
-        </p>
-        <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="/products" class="px-8 py-4 bg-white text-primary-700 rounded-xl font-semibold hover:bg-gray-100 transition-colors flex items-center justify-center space-x-2">
-                <i data-lucide="shopping-cart" class="w-5 h-5"></i>
-                <span>立即选购</span>
-            </a>
-            <a href="#" class="px-8 py-4 bg-white/10 text-white rounded-xl font-semibold hover:bg-white/20 transition-colors flex items-center justify-center space-x-2">
-                <i data-lucide="phone" class="w-5 h-5"></i>
-                <span>咨询专家</span>
-            </a>
         </div>
     </div>
 </section>

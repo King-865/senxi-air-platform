@@ -1,7 +1,7 @@
 """
 森系智韵智能空气管理平台 - Flask主应用
 """
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from datetime import timedelta
 import json
 import os
@@ -10,15 +10,22 @@ import os
 from utils.smart_guide import SmartGuideSystem
 from utils.air_butler import AirButler
 from utils.product_manager import ProductManager
+from utils.auth import auth_manager, login_required, get_current_user
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)
-app.permanent_session_lifetime = timedelta(hours=2)
+app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24))
+app.permanent_session_lifetime = timedelta(days=7)
 
 # 初始化系统组件
 smart_guide = SmartGuideSystem()
 air_butler = AirButler()
 product_manager = ProductManager()
+
+
+# 注入当前用户到模板上下文
+@app.context_processor
+def inject_user():
+    return {'current_user': session.get('user')}
 
 
 # ==================== 页面路由 ====================
@@ -79,6 +86,103 @@ def compare():
     """产品对比"""
     products = product_manager.get_all_products()
     return render_template('pages/compare.html', products=products)
+
+
+# ==================== 认证页面路由 ====================
+
+@app.route('/login')
+def login():
+    """登录页面"""
+    if session.get('user'):
+        return redirect(url_for('profile'))
+    return render_template('pages/login.html')
+
+
+@app.route('/profile')
+def profile():
+    """个人中心页面"""
+    return render_template('pages/profile.html')
+
+
+@app.route('/auth/<platform>')
+def oauth_redirect(platform):
+    """第三方登录跳转"""
+    redirect_uri = url_for('oauth_callback', platform=platform, _external=True)
+    result = auth_manager.get_oauth_url(platform, redirect_uri)
+    
+    if result['success']:
+        # 实际项目中跳转到OAuth URL
+        # return redirect(result['url'])
+        # 演示模式：直接模拟登录成功
+        return redirect(url_for('oauth_callback', platform=platform, code='demo_code', state=result['state']))
+    
+    return jsonify(result), 400
+
+
+@app.route('/auth/<platform>/callback')
+def oauth_callback(platform):
+    """第三方登录回调"""
+    code = request.args.get('code')
+    state = request.args.get('state')
+    
+    if not code or not state:
+        return redirect(url_for('login'))
+    
+    result = auth_manager.oauth_callback(platform, code, state)
+    
+    if result['success']:
+        session['user'] = result['user']
+        session['user_id'] = result['user']['id']
+        session.permanent = True
+        return redirect(url_for('profile'))
+    
+    return redirect(url_for('login'))
+
+
+# ==================== 认证API ====================
+
+@app.route('/api/auth/send-code', methods=['POST'])
+def send_verification_code():
+    """发送验证码"""
+    data = request.json
+    phone = data.get('phone', '')
+    
+    result = auth_manager.send_verification_code(phone)
+    return jsonify(result)
+
+
+@app.route('/api/auth/login', methods=['POST'])
+def api_login():
+    """手机号登录"""
+    data = request.json
+    phone = data.get('phone', '')
+    code = data.get('code', '')
+    
+    result = auth_manager.login_with_phone(phone, code)
+    
+    if result['success']:
+        session['user'] = result['user']
+        session['user_id'] = result['user']['id']
+        session.permanent = True
+    
+    return jsonify(result)
+
+
+@app.route('/api/auth/logout', methods=['POST'])
+def api_logout():
+    """退出登录"""
+    session.pop('user', None)
+    session.pop('user_id', None)
+    return jsonify({'success': True, 'message': '已退出登录'})
+
+
+@app.route('/api/auth/user', methods=['GET'])
+def get_user_info():
+    """获取当前用户信息"""
+    user = session.get('user')
+    if user:
+        return jsonify({'success': True, 'user': user})
+    return jsonify({'success': False, 'message': '未登录'}), 401
 
 
 # ==================== 智能导购API ====================

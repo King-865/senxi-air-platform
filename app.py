@@ -6,6 +6,9 @@ from datetime import timedelta
 import json
 import os
 
+# 导入数据库模型
+from models import db, User, Product, Order, OrderItem, Post, Comment, PostLike
+
 # 导入自定义模块
 from utils.smart_guide import SmartGuideSystem
 from utils.air_butler import AirButler
@@ -15,6 +18,19 @@ from utils.auth import auth_manager, login_required, get_current_user
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24))
 app.permanent_session_lifetime = timedelta(days=7)
+
+# 数据库配置
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///senxi_air.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ECHO'] = False  # 设置为 True 可以看到 SQL 语句
+
+# 初始化数据库
+db.init_app(app)
+
+# 创建数据库表
+with app.app_context():
+    db.create_all()
+    print('数据库表创建成功！')
 
 # 初始化系统组件
 smart_guide = SmartGuideSystem()
@@ -369,4 +385,4 @@ def internal_error(e):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=False, host='0.0.0.0', port=5000, threaded=True)

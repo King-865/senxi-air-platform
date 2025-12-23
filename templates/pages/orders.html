@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+
+{% block title %}我的订单{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gray-50 pb-20">
+    <!-- 顶部导航 -->
+    <div class="bg-white sticky top-0 z-20 safe-area-top">
+        <div class="flex items-center justify-between px-4 py-3">
+            <a href="/profile" class="w-10 h-10 flex items-center justify-center -ml-2 touch-feedback">
+                <i data-lucide="arrow-left" class="w-6 h-6 text-gray-700"></i>
+            </a>
+            <h1 class="text-lg font-semibold text-gray-900">我的订单</h1>
+            <div class="w-10"></div>
+        </div>
+        
+        <!-- 订单状态筛选 -->
+        <div class="flex border-b border-gray-100">
+            <button class="flex-1 py-3 text-center text-sm font-medium order-tab active" data-status="all">
+                全部
+            </button>
+            <button class="flex-1 py-3 text-center text-sm font-medium order-tab" data-status="pending">
+                待付款
+            </button>
+            <button class="flex-1 py-3 text-center text-sm font-medium order-tab" data-status="paid">
+                待发货
+            </button>
+            <button class="flex-1 py-3 text-center text-sm font-medium order-tab" data-status="shipped">
+                待收货
+            </button>
+            <button class="flex-1 py-3 text-center text-sm font-medium order-tab" data-status="completed">
+                已完成
+            </button>
+        </div>
+    </div>
+    
+    <!-- 订单列表 -->
+    <div id="order-list" class="px-4 py-4 space-y-4">
+        <!-- 订单卡片会通过JS动态加载 -->
+        <div class="text-center py-12 text-gray-500" id="empty-state">
+            <i data-lucide="package" class="w-16 h-16 mx-auto mb-4 text-gray-300"></i>
+            <p>暂无订单</p>
+        </div>
+    </div>
+</section>
+
+<style>
+.order-tab {
+    color: #6b7280;
+    position: relative;
+}
+.order-tab.active {
+    color: #059669;
+}
+.order-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 2px;
+    background: #059669;
+    border-radius: 1px;
+}
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+const orderStatusMap = {
+    'pending': '待付款',
+    'paid': '待发货',
+    'shipped': '待收货',
+    'completed': '已完成',
+    'cancelled': '已取消'
+};
+
+const orderStatusColor = {
+    'pending': 'text-orange-600',
+    'paid': 'text-blue-600',
+    'shipped': 'text-purple-600',
+    'completed': 'text-green-600',
+    'cancelled': 'text-gray-500'
+};
+
+let currentStatus = 'all';
+
+// 加载订单
+async function loadOrders(status = 'all') {
+    currentStatus = status;
+    const url = status === 'all' ? '/api/orders' : `/api/orders?status=${status}`;
+    
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (data.success) {
+            renderOrders(data.orders);
+        } else {
+            document.getElementById('order-list').innerHTML = `
+                <div class="text-center py-12 text-gray-500">
+                    <p>${data.message || '请先登录'}</p>
+                    <a href="/login" class="mt-4 inline-block px-6 py-2 bg-primary-600 text-white rounded-lg">去登录</a>
+                </div>
+            `;
+        }
+    } catch (error) {
+        console.error('加载订单失败:', error);
+    }
+}
+
+// 渲染订单列表
+function renderOrders(orders) {
+    const container = document.getElementById('order-list');
+    
+    if (!orders || orders.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-12 text-gray-500" id="empty-state">
+                <i data-lucide="package" class="w-16 h-16 mx-auto mb-4 text-gray-300"></i>
+                <p>暂无订单</p>
+            </div>
+        `;
+        lucide.createIcons();
+        return;
+    }
+    
+    container.innerHTML = orders.map(order => `
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+            <!-- 订单头部 -->
+            <div class="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+                <span class="text-sm text-gray-500">订单号: ${order.id}</span>
+                <span class="text-sm font-medium ${orderStatusColor[order.status]}">${orderStatusMap[order.status]}</span>
+            </div>
+            
+            <!-- 订单商品 -->
+            <div class="p-4">
+                ${order.items.map(item => `
+                    <div class="flex items-center space-x-3 ${order.items.indexOf(item) > 0 ? 'mt-3 pt-3 border-t border-gray-100' : ''}">
+                        <div class="w-20 h-20 bg-gray-100 rounded-xl overflow-hidden flex-shrink-0">
+                            <img src="${item.product_image || 'https://via.placeholder.com/100x100?text=Product'}" 
+                                 alt="${item.product_name}" class="w-full h-full object-contain">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-medium text-gray-900 text-sm line-clamp-2">${item.product_name}</h4>
+                            <div class="flex items-center justify-between mt-2">
+                                <span class="text-primary-600 font-semibold">¥${item.price}</span>
+                                <span class="text-gray-500 text-sm">×${item.quantity}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+            
+            <!-- 订单底部 -->
+            <div class="px-4 py-3 bg-gray-50 flex items-center justify-between">
+                <span class="text-sm text-gray-500">共${order.items.reduce((sum, item) => sum + item.quantity, 0)}件商品</span>
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm text-gray-600">实付款:</span>
+                    <span class="text-lg font-bold text-primary-600">¥${order.total_amount.toFixed(2)}</span>
+                </div>
+            </div>
+            
+            <!-- 操作按钮 -->
+            <div class="px-4 py-3 border-t border-gray-100 flex justify-end space-x-3">
+                ${order.status === 'pending' ? `
+                    <button onclick="cancelOrder('${order.id}')" class="px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg touch-feedback">
+                        取消订单
+                    </button>
+                    <button onclick="payOrder('${order.id}')" class="px-4 py-2 text-sm text-white bg-primary-600 rounded-lg touch-feedback">
+                        立即付款
+                    </button>
+                ` : ''}
+                ${order.status === 'shipped' ? `
+                    <button onclick="confirmReceive('${order.id}')" class="px-4 py-2 text-sm text-white bg-primary-600 rounded-lg touch-feedback">
+                        确认收货
+                    </button>
+                ` : ''}
+                ${order.status === 'completed' ? `
+                    <button onclick="viewDetail('${order.id}')" class="px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg touch-feedback">
+                        查看详情
+                    </button>
+                    <button onclick="buyAgain('${order.id}')" class="px-4 py-2 text-sm text-white bg-primary-600 rounded-lg touch-feedback">
+                        再次购买
+                    </button>
+                ` : ''}
+            </div>
+        </div>
+    `).join('');
+    
+    lucide.createIcons();
+}
+
+// 取消订单
+async function cancelOrder(orderId) {
+    if (!confirm('确定要取消此订单吗？')) return;
+    
+    try {
+        const response = await fetch(`/api/orders/${orderId}/cancel`, { method: 'POST' });
+        const data = await response.json();
+        if (data.success) {
+            loadOrders(currentStatus);
+        } else {
+            alert(data.message || '取消失败');
+        }
+    } catch (error) {
+        alert('操作失败');
+    }
+}
+
+// 确认收货
+async function confirmReceive(orderId) {
+    if (!confirm('确认已收到商品？')) return;
+    
+    try {
+        const response = await fetch(`/api/orders/${orderId}/complete`, { method: 'POST' });
+        const data = await response.json();
+        if (data.success) {
+            loadOrders(currentStatus);
+        } else {
+            alert(data.message || '操作失败');
+        }
+    } catch (error) {
+        alert('操作失败');
+    }
+}
+
+// 付款（模拟）
+function payOrder(orderId) {
+    alert('支付功能演示中，实际项目需接入支付接口');
+}
+
+// 查看详情
+function viewDetail(orderId) {
+    window.location.href = `/order/${orderId}`;
+}
+
+// 再次购买
+function buyAgain(orderId) {
+    alert('再次购买功能开发中');
+}
+
+// 切换状态标签
+document.querySelectorAll('.order-tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+        document.querySelectorAll('.order-tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        loadOrders(this.dataset.status);
+    });
+});
+
+// 初始加载
+loadOrders();
+</script>
+{% endblock %}

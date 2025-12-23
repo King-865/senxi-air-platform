@@ -29,3 +29,9 @@ ENV/
 *.swo
 .DS_Store
 *.log
+
+# Database
+instance/
+*.db
+*.sqlite
+*.sqlite3

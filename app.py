@@ -7,7 +7,7 @@ import json
 import os
 
 # 导入数据库模型
-from models import db, User, Product, Order, OrderItem, Post, Comment, PostLike
+from models import db, User, Product, Order, OrderItem, Post, Comment, PostLike, PostFavorite
 
 # 导入自定义模块
 from utils.smart_guide import SmartGuideSystem
@@ -89,6 +89,30 @@ def community():
     """健康呼吸社区"""
     posts = get_community_posts()
     return render_template('pages/community.html', posts=posts)
+
+
+@app.route('/post/<post_id>')
+def post_detail(post_id):
+    """帖子详情页"""
+    post = Post.query.filter_by(post_id=post_id).first()
+    if not post:
+        return render_template('pages/404.html'), 404
+    
+    # 增加浏览量
+    post.views += 1
+    db.session.commit()
+    
+    # 获取评论
+    comments = Comment.query.filter_by(post_id=post.id).order_by(Comment.created_at.desc()).all()
+    
+    return render_template('pages/post_detail.html', post=post, comments=comments)
+
+
+@app.route('/create-post')
+@login_required
+def create_post_page():
+    """发帖页面"""
+    return render_template('pages/create_post.html')
 
 
 @app.route('/brand')
@@ -386,3 +410,129 @@ def internal_error(e):
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=5000, threaded=True)
+
+
+# ==================== 社区API ====================
+
+@app.route('/api/post/<post_id>/like', methods=['POST'])
+def api_post_like(post_id):
+    """点赞/取消点赞帖子"""
+    user = session.get('user')
+    if not user:
+        return jsonify({'success': False, 'message': 'not_logged_in'}), 401
+    
+    post = Post.query.filter_by(post_id=post_id).first()
+    if not post:
+        return jsonify({'success': False, 'message': '帖子不存在'}), 404
+    
+    # 检查是否已点赞
+    existing_like = PostLike.query.filter_by(user_id=user['id'], post_id=post.id).first()
+    
+    if existing_like:
+        # 取消点赞
+        db.session.delete(existing_like)
+        post.likes = max(0, post.likes - 1)
+        db.session.commit()
+        return jsonify({'success': True, 'liked': False, 'likes': post.likes})
+    else:
+        # 添加点赞
+        new_like = PostLike(user_id=user['id'], post_id=post.id)
+        db.session.add(new_like)
+        post.likes += 1
+        db.session.commit()
+        return jsonify({'success': True, 'liked': True, 'likes': post.likes})
+
+
+@app.route('/api/post/<post_id>/favorite', methods=['POST'])
+def api_post_favorite(post_id):
+    """收藏/取消收藏帖子"""
+    user = session.get('user')
+    if not user:
+        return jsonify({'success': False, 'message': 'not_logged_in'}), 401
+    
+    post = Post.query.filter_by(post_id=post_id).first()
+    if not post:
+        return jsonify({'success': False, 'message': '帖子不存在'}), 404
+    
+    # 检查是否已收藏
+    existing_favorite = PostFavorite.query.filter_by(user_id=user['id'], post_id=post.id).first()
+    
+    if existing_favorite:
+        # 取消收藏
+        db.session.delete(existing_favorite)
+        db.session.commit()
+        return jsonify({'success': True, 'favorited': False})
+    else:
+        # 添加收藏
+        new_favorite = PostFavorite(user_id=user['id'], post_id=post.id)
+        db.session.add(new_favorite)
+        db.session.commit()
+        return jsonify({'success': True, 'favorited': True})
+
+
+@app.route('/api/post/<post_id>/comment', methods=['POST'])
+def api_post_comment(post_id):
+    """发表评论"""
+    user = session.get('user')
+    if not user:
+        return jsonify({'success': False, 'message': 'not_logged_in'}), 401
+    
+    post = Post.query.filter_by(post_id=post_id).first()
+    if not post:
+        return jsonify({'success': False, 'message': '帖子不存在'}), 404
+    
+    data = request.json
+    content = data.get('content', '').strip()
+    
+    if not content:
+        return jsonify({'success': False, 'message': '评论内容不能为空'}), 400
+    
+    # 创建评论
+    comment = Comment(
+        post_id=post.id,
+        user_id=user['id'],
+        content=content
+    )
+    db.session.add(comment)
+    
+    # 更新帖子评论数
+    post.comment_count += 1
+    
+    db.session.commit()
+    
+    return jsonify({'success': True, 'message': '评论成功', 'comment': comment.to_dict()})
+
+
+@app.route('/api/post/create', methods=['POST'])
+def api_create_post():
+    """创建新帖子"""
+    user = session.get('user')
+    if not user:
+        return jsonify({'success': False, 'message': 'not_logged_in'}), 401
+    
+    data = request.json
+    title = data.get('title', '').strip()
+    content = data.get('content', '').strip()
+    category = data.get('category', 'general')
+    images = data.get('images', [])
+    
+    if not title or not content:
+        return jsonify({'success': False, 'message': '标题和内容不能为空'}), 400
+    
+    # 生成帖子ID
+    import time
+    post_id = f"post_{int(time.time() * 1000)}"
+    
+    # 创建帖子
+    post = Post(
+        post_id=post_id,
+        user_id=user['id'],
+        title=title,
+        content=content,
+        category=category,
+        images=json.dumps(images) if images else None
+    )
+    db.session.add(post)
+    db.session.commit()
+    
+    return jsonify({'success': True, 'message': '发帖成功', 'post_id': post_id})

@@ -53,12 +53,12 @@
                         <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
                             <i data-lucide="user" class="w-6 h-6 text-primary-600"></i>
                         </div>
-                        <button class="flex-1 text-left px-4 py-3 bg-gray-100 rounded-xl text-gray-500 hover:bg-gray-200 transition-colors">
+                        <a href="/create-post" class="flex-1 text-left px-4 py-3 bg-gray-100 rounded-xl text-gray-500 hover:bg-gray-200 transition-colors block">
                             分享您的空气健康经验...
-                        </button>
-                        <button class="p-3 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-colors">
+                        </a>
+                        <a href="/create-post" class="p-3 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-colors block">
                             <i data-lucide="edit" class="w-5 h-5"></i>
-                        </button>
+                        </a>
                     </div>
                 </div>
                 
@@ -94,10 +94,12 @@
                             </div>
                             
                             <!-- Content -->
-                            <h3 class="text-xl font-bold text-gray-900 mb-3 hover:text-primary-600 transition-colors cursor-pointer">
-                                {{ post.title }}
-                            </h3>
-                            <p class="text-gray-600 mb-4">{{ post.content }}</p>
+                            <a href="/post/{{ post.post_id }}" class="block">
+                                <h3 class="text-xl font-bold text-gray-900 mb-3 hover:text-primary-600 transition-colors cursor-pointer">
+                                    {{ post.title }}
+                                </h3>
+                                <p class="text-gray-600 mb-4 line-clamp-3">{{ post.content }}</p>
+                            </a>
                             
                             <!-- Tags -->
                             <div class="flex flex-wrap gap-2 mb-4">
@@ -108,20 +110,20 @@
                             <!-- Actions -->
                             <div class="flex items-center justify-between pt-4 border-t">
                                 <div class="flex items-center space-x-6">
-                                    <button class="flex items-center space-x-2 text-gray-500 hover:text-red-500 transition-colors">
+                                    <button onclick="toggleLike('{{ post.post_id }}')" id="like-btn-{{ post.post_id }}" class="flex items-center space-x-2 text-gray-500 hover:text-red-500 transition-colors">
                                         <i data-lucide="heart" class="w-5 h-5"></i>
-                                        <span>{{ post.likes }}</span>
+                                        <span id="like-count-{{ post.post_id }}">{{ post.likes }}</span>
                                     </button>
-                                    <button class="flex items-center space-x-2 text-gray-500 hover:text-primary-600 transition-colors">
+                                    <a href="/post/{{ post.post_id }}" class="flex items-center space-x-2 text-gray-500 hover:text-primary-600 transition-colors">
                                         <i data-lucide="message-circle" class="w-5 h-5"></i>
-                                        <span>{{ post.comments }}</span>
-                                    </button>
+                                        <span>{{ post.comment_count }}</span>
+                                    </a>
                                     <button class="flex items-center space-x-2 text-gray-500 hover:text-primary-600 transition-colors">
                                         <i data-lucide="share-2" class="w-5 h-5"></i>
                                         <span>分享</span>
                                     </button>
                                 </div>
-                                <button class="text-gray-500 hover:text-yellow-500 transition-colors">
+                                <button onclick="toggleFavorite('{{ post.post_id }}')" id="fav-btn-{{ post.post_id }}" class="text-gray-500 hover:text-yellow-500 transition-colors">
                                     <i data-lucide="bookmark" class="w-5 h-5"></i>
                                 </button>
                             </div>
@@ -321,3 +323,86 @@
     </div>
 </section>
 {% endblock %}
+
+
+<script>
+// 点赞功能
+function toggleLike(postId) {
+    fetch(`/api/post/${postId}/like`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const btn = document.getElementById(`like-btn-${postId}`);
+            const count = document.getElementById(`like-count-${postId}`);
+            const icon = btn.querySelector('[data-lucide="heart"]');
+            
+            if (data.liked) {
+                btn.classList.add('text-red-500');
+                btn.classList.remove('text-gray-500');
+                icon.setAttribute('fill', 'currentColor');
+            } else {
+                btn.classList.remove('text-red-500');
+                btn.classList.add('text-gray-500');
+                icon.removeAttribute('fill');
+            }
+            
+            count.textContent = data.likes;
+            lucide.createIcons();
+        } else {
+            if (data.message === 'not_logged_in') {
+                window.location.href = '/login';
+            } else {
+                alert(data.message || '操作失败');
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('操作失败，请稍后重试');
+    });
+}
+
+// 收藏功能
+function toggleFavorite(postId) {
+    fetch(`/api/post/${postId}/favorite`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const btn = document.getElementById(`fav-btn-${postId}`);
+            const icon = btn.querySelector('[data-lucide="bookmark"]');
+            
+            if (data.favorited) {
+                btn.classList.add('text-yellow-500');
+                btn.classList.remove('text-gray-500');
+                icon.setAttribute('fill', 'currentColor');
+            } else {
+                btn.classList.remove('text-yellow-500');
+                btn.classList.add('text-gray-500');
+                icon.removeAttribute('fill');
+            }
+            
+            lucide.createIcons();
+        } else {
+            if (data.message === 'not_logged_in') {
+                window.location.href = '/login';
+            } else {
+                alert(data.message || '操作失败');
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('操作失败，请稍后重试');
+    });
+}
+</script>
